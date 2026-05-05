@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import Saudacao from "./dashboard/greeting";
 
 export default function Home() {
   return (
@@ -59,6 +61,12 @@ export default function Home() {
             Documentation
           </a>
         </div>
+        <Link href={`/dashboard`}>
+            <button className="bg-blue-500 text-white p-1 rounded-md">
+              pagina dashboard
+            </button>
+        </Link>
+        
       </main>
     </div>
   );
