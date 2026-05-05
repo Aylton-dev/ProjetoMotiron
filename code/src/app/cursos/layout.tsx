@@ -1,59 +1,63 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Home, BookOpen, ListTodo, User } from "lucide-react";
+
+const categorias = [
+  { id: 1, nome: "Cursos de Frontend" },
+  { id: 2, nome: "Cursos de Backend" },
+  { id: 3, nome: "Cursos de Dados" },
+  { id: 4, nome: "Ferramentas do dia a dia" },
+  { id: 5, nome: "UI/UX" },
+  { id: 6, nome: "Soft skills" },
+];
 
 export default function CursosLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cursos = [
-    { id: 1, nome: "React" },
-    { id: 2, nome: "UI/UX" },
-    { id: 3, nome: "JavaScript" },
-  ];
-
   const [busca, setBusca] = useState("");
 
-  const cursosFiltrados = cursos.filter((curso) =>
-    curso.nome.toLowerCase().includes(busca.toLowerCase())
+  const categoriasFiltradas = categorias.filter((categoria) =>
+    categoria.nome.toLowerCase().includes(busca.toLowerCase())
   );
 
   return (
     <div className="min-h-screen flex flex-col bg-[#D6DCF0]">
 
-      {/* 🔝 NAVBAR */}
+      {/* NAVBAR */}
       <header className="bg-[#046279] text-white px-6 py-4 flex items-center shadow-md">
         <div className="font-bold text-xl w-1/4">
           LOGO
         </div>
 
         <nav className="flex w-2/4 justify-center gap-10">
-          <a href="/" className="flex items-center gap-2 hover:text-gray-200">
+          <Link href="/" className="flex items-center gap-2 hover:text-gray-200">
             <Home size={18} /> Início
-          </a>
+          </Link>
 
-          <a href="/cursos" className="flex items-center gap-2 hover:text-gray-200">
+          <Link href="/cursos" className="flex items-center gap-2 hover:text-gray-200">
             <BookOpen size={18} /> Cursos
-          </a>
+          </Link>
 
-          <a href="/atividades" className="flex items-center gap-2 hover:text-gray-200">
+          <Link href="/atividades" className="flex items-center gap-2 hover:text-gray-200">
             <ListTodo size={18} /> Atividades
-          </a>
+          </Link>
 
-          <a href="/perfil" className="flex items-center gap-2 hover:text-gray-200">
+          <Link href="/perfil" className="flex items-center gap-2 hover:text-gray-200">
             <User size={18} /> Perfil
-          </a>
+          </Link>
         </nav>
 
         <div className="w-1/4"></div>
       </header>
 
-      {/* 📦 CONTEÚDO */}
+      {/* CONTEÚDO */}
       <div className="flex flex-1">
 
-        {/* 📚 SIDEBAR */}
+        {/* SIDEBAR */}
         <aside className="w-72 bg-white/70 backdrop-blur p-5 border-r">
 
           <h2 className="font-semibold mb-3">
@@ -73,54 +77,21 @@ export default function CursosLayout({
           </h2>
 
           <div className="space-y-3">
-            {cursosFiltrados.map((curso) => (
-              <a
-                key={curso.id}
-                href={`/cursos/${curso.id}`}
+            {categoriasFiltradas.map((categoria) => (
+              <Link
+                key={categoria.id}
+                href={`/cursos/${categoria.id}`}
                 className="block p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition"
               >
-                <p className="font-medium">{curso.nome}</p>
+                <p className="font-medium">{categoria.nome}</p>
                 <p className="text-xs text-gray-500">Acessar →</p>
-              </a>
+              </Link>
             ))}
           </div>
 
         </aside>
 
-        {/* 🎬 ÁREA PRINCIPAL (NETFLIX STYLE GRID) */}
-        <main className="flex-1 p-8">
-
-          <h1 className="text-2xl font-bold mb-6">
-            Cursos disponíveis
-          </h1>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            {cursos.map((curso) => (
-              <a
-                key={curso.id}
-                href={`/cursos/${curso.id}`}
-                className="bg-white rounded-2xl p-5 shadow-md
-                           hover:shadow-xl hover:-translate-y-1
-                           transition"
-              >
-                <h2 className="text-lg font-semibold">
-                  {curso.nome}
-                </h2>
-
-                <p className="text-sm text-gray-500 mt-2">
-                  Clique para acessar o curso
-                </p>
-
-                <div className="mt-4 text-[#046279] font-medium">
-                  Assistir →
-                </div>
-              </a>
-            ))}
-
-          </div>
-
-        </main>
+        <main className="flex-1 p-8">{children}</main>
 
       </div>
     </div>

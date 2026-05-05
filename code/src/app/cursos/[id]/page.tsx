@@ -1,31 +1,113 @@
-export default function Curso({ params }: { params: { id: string } }) {
-  const cursos = [
-    { id: 1, nome: "React" },
-    { id: 2, nome: "UI/UX" },
-    { id: 3, nome: "JavaScript" },
+import Link from "next/link";
+
+export default async function Categoria({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const categorias = [
+    {
+      id: 1,
+      nome: "Cursos de Frontend",
+      descricao: "HTML, CSS e responsividade, JavaScript moderno, React, TypeScript e consumo de APIs.",
+      cursos: [
+        "HTML, CSS e responsividade",
+        "JavaScript moderno",
+        "React (o mais comum)",
+        "TypeScript",
+        "Consumo de APIs",
+      ],
+    },
+    {
+      id: 2,
+      nome: "Cursos de Backend",
+      descricao: "APIs REST, Node.js, autenticação, banco de dados e arquitetura.",
+      cursos: [
+        "APIs REST",
+        "Node.js",
+        "Autenticação (login, JWT)",
+        "Banco de dados",
+        "Arquitetura (MVC, Clean Code)",
+      ],
+    },
+    {
+      id: 3,
+      nome: "Cursos de Dados",
+      descricao: "SQL, modelagem, ETL, Python para dados e dashboards.",
+      cursos: [
+        "SQL",
+        "Modelagem de dados",
+        "ETL (tratamento de dados)",
+        "Python para dados",
+        "Dashboards",
+      ],
+    },
+    {
+      id: 4,
+      nome: "Ferramentas do dia a dia",
+      descricao: "Git, GitHub, metodologias ágeis e versionamento.",
+      cursos: [
+        "Git",
+        "GitHub",
+        "Metodologias ágeis (Scrum, Kanban)",
+        "Versionamento e branches",
+      ],
+    },
+    {
+      id: 5,
+      nome: "UI/UX",
+      descricao: "Design system, prototipação, usabilidade e Figma.",
+      cursos: [
+        "Design System",
+        "Prototipação",
+        "Usabilidade",
+        "Figma",
+      ],
+    },
+    {
+      id: 6,
+      nome: "Soft skills",
+      descricao: "Comunicação, trabalho em equipe, gestão de tempo e feedback.",
+      cursos: [
+        "Comunicação",
+        "Trabalho em equipe",
+        "Gestão de tempo",
+        "Feedback",
+      ],
+    },
   ];
 
-  const curso = cursos.find(
-    (c) => c.id === Number(params.id)
+  const categoria = categorias.find(
+    (item) => item.id === Number(id)
   );
 
-  // ❌ se não existir, retorna logo aqui
-  if (!curso) {
+  // se não existir, retorna logo aqui
+  if (!categoria) {
     return (
       <div className="p-6">
-        <h1 className="text-xl font-bold text-red-500">
-          Curso não encontrado
-        </h1>
+        <h1 className="text-xl font-bold text-red-500">Categoria não encontrada</h1>
+        <p className="mt-2 text-gray-600">Verifique se o link está correto e tente novamente.</p>
+        <Link href="/cursos" className="mt-4 inline-block text-[#046279] font-semibold hover:underline">
+          Voltar para categorias
+        </Link>
       </div>
     );
   }
 
-  // ✅ se existir, mostra normalmente
+  // se existir, mostra a lista de cursos da categoria
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-[#046279]">
-        Curso de {curso.nome}
-      </h1>
+      <Link href="/cursos" className="text-sm text-[#046279] hover:underline">
+        ← Voltar para categorias
+      </Link>
+
+      <h1 className="text-3xl font-bold text-[#046279] mt-4">{categoria.nome}</h1>
+      <p className="text-gray-600 mt-2">{categoria.descricao}</p>
+
+      <div className="mt-8 space-y-4">
+        {categoria.cursos.map((curso) => (
+          <div key={curso} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+            <p className="text-lg font-medium">{curso}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
