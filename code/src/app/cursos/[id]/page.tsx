@@ -1,5 +1,16 @@
 import Link from "next/link";
 
+// Função para converter nome do curso em slug
+function criarSlug(texto: string): string {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default async function Categoria({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const categorias = [
@@ -102,11 +113,21 @@ export default async function Categoria({ params }: { params: Promise<{ id: stri
       <p className="text-gray-600 mt-2">{categoria.descricao}</p>
 
       <div className="mt-8 space-y-4">
-        {categoria.cursos.map((curso) => (
-          <div key={curso} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-            <p className="text-lg font-medium">{curso}</p>
-          </div>
-        ))}
+        {categoria.cursos.map((curso) => {
+          const cursoSlug = criarSlug(curso);
+          return (
+            <Link
+              key={curso}
+              href={`/cursos/${id}/${cursoSlug}`}
+              className="block"
+            >
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg hover:border-[#046279] transition cursor-pointer">
+                <p className="text-lg font-medium text-gray-800 group-hover:text-[#046279]">{curso}</p>
+                <p className="text-sm text-gray-500 mt-2">Clique para acessar →</p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
