@@ -22,5 +22,107 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Animações — videoaula EAD */
+@keyframes aula-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes aula-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aula-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes aula-progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes aula-pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+@layer utilities {
+  .aula-animate-fade-in {
+    animation: aula-fade-in 0.45s ease-out both;
+  }
+
+  .aula-animate-fade-in-up {
+    animation: aula-fade-in-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .aula-animate-slide-in-right {
+    animation: aula-slide-in-right 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .aula-delay-75 {
+    animation-delay: 75ms;
+  }
+
+  .aula-delay-150 {
+    animation-delay: 150ms;
+  }
+
+  .aula-delay-225 {
+    animation-delay: 225ms;
+  }
+
+  .aula-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .aula-progress-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.35),
+      transparent
+    );
+    animation: aula-progress-shimmer 2s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aula-animate-fade-in,
+  .aula-animate-fade-in-up,
+  .aula-animate-slide-in-right,
+  .aula-progress-shimmer::after {
+    animation: none !important;
+  }
 }

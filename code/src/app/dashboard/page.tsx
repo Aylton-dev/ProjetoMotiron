@@ -76,9 +76,12 @@ return(
                 <div className="flex items-center gap-1"><Clock size={16}/> 45min restantes</div>
                 <div className="flex items-center gap-1"><BookOpen size={16}/> Módulo 04</div>
               </div>
-              <button className="bg-white text-[#046279] px-8 py-3 rounded-2xl font-bold flex items-center gap-2 hover:scale-105 transition-transform">
-                <PlayCircle size={20}/> Continuar Assistindo
-              </button>
+              <Link
+                href="/cursos/frontend/aulas/react"
+                className="inline-flex items-center gap-2 rounded-2xl bg-white px-8 py-3 font-bold text-[#046279] transition-transform hover:scale-105"
+              >
+                <PlayCircle size={20} /> Continuar Assistindo
+              </Link>
             </div>
             <div className="hidden md:block relative w-48 h-48">
                 {/* Efeito visual do curso */}

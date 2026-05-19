@@ -2,16 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Home, BookOpen, ListTodo, User } from "lucide-react";
 
-const categorias = [
-  { id: 1, nome: "Cursos de Frontend" },
-  { id: 2, nome: "Cursos de Backend" },
-  { id: 3, nome: "Cursos de Dados" },
-  { id: 4, nome: "Ferramentas do dia a dia" },
-  { id: 5, nome: "UI/UX" },
-  { id: 6, nome: "Soft skills" },
-];
+import { getCategorias } from "@/lib/data/cursos-catalogo";
+
+const categorias = getCategorias().map((c) => ({
+  slug: c.slug,
+  nome: c.nome,
+}));
 
 export default function CursosLayout({
   children,
@@ -19,6 +18,8 @@ export default function CursosLayout({
   children: React.ReactNode;
 }) {
   const [busca, setBusca] = useState("");
+  const pathname = usePathname();
+  const emVideoaula = pathname.includes("/aulas/");
 
   const categoriasFiltradas = categorias.filter((categoria) =>
     categoria.nome.toLowerCase().includes(busca.toLowerCase())
@@ -57,8 +58,8 @@ export default function CursosLayout({
       {/* CONTEÚDO */}
       <div className="flex flex-1">
 
-        {/* SIDEBAR */}
-        <aside className="w-72 bg-white/70 backdrop-blur p-5 border-r">
+        {!emVideoaula && (
+          <aside className="hidden w-72 shrink-0 border-r bg-white/70 p-5 backdrop-blur md:block">
 
           <h2 className="font-semibold mb-3">
             🔎 Buscar curso
@@ -79,8 +80,8 @@ export default function CursosLayout({
           <div className="space-y-3">
             {categoriasFiltradas.map((categoria) => (
               <Link
-                key={categoria.id}
-                href={`/cursos/${categoria.id}`}
+                key={categoria.slug}
+                href={`/cursos/${categoria.slug}`}
                 className="block p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition"
               >
                 <p className="font-medium">{categoria.nome}</p>
@@ -89,9 +90,12 @@ export default function CursosLayout({
             ))}
           </div>
 
-        </aside>
+          </aside>
+        )}
 
-        <main className="flex-1 p-8">{children}</main>
+        <main className={`flex-1 ${emVideoaula ? "p-0" : "p-4 md:p-8"}`}>
+          {children}
+        </main>
 
       </div>
     </div>

@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import Saudacao from "./dashboard/greeting";
-
 export default function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -61,11 +59,26 @@ export default function Home() {
             Documentation
           </a>
         </div>
-        <Link href={`/dashboard`}>
-            <button className="bg-blue-500 text-white p-1 rounded-md">
-              pagina dashboard
-            </button>
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/cursos/frontend/aulas/html"
+            className="flex h-12 items-center justify-center rounded-full bg-[#046279] px-6 text-sm font-medium text-white transition hover:bg-[#035566]"
+          >
+            Assistir videoaula
+          </Link>
+          <Link
+            href="/dashboard"
+            className="flex h-12 items-center justify-center rounded-full border border-black/[.08] px-6 text-sm font-medium transition hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/cursos"
+            className="flex h-12 items-center justify-center rounded-full border border-black/[.08] px-6 text-sm font-medium transition hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
+          >
+            Cursos
+          </Link>
+        </div>
         
       </main>
     </div>
