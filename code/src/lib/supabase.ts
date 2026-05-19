@@ -1,9 +1,13 @@
-import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://lkuowspwqkcjlfsywjmk.supabase.co/rest/v1/";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrdW93c3B3cWtjamxmc3l3am1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MTM0MDcsImV4cCI6MjA5NDE4OTQwN30.QxwPSB8GybzRWEcmVz68mio1-gvXf0ZIL1lAvaLFruo";
+import { createClient } from '@supabase/supabase-js';
 
-export const supabase = createClient(
-  supabaseUrl,
-  supabaseKey
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+// teste temporário para garantir que as chaves estão sendo lidas corretamente
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error("ERRO: O Next.js não encontrou as chaves no .env.local!");
+}
+
+// Cria o cliente global para usar no projeto
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
