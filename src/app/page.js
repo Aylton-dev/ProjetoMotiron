@@ -1,66 +1,66 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import styles from './login.module.css'
+import logo from './assets/logo.png'
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
+    <main className={styles.container}>
+      <section className={styles.leftSide}>
+        <img
+          src={logo.src}
+          alt="Logo"
           className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
         />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
+
+        <h1>UP SKILLS</h1>
+
+        <p>O futuro pertence a quem evolui</p>
+      </section>
+
+      <section className={styles.rightSide}>
+        <img
+          src={logo.src}
+          alt="Logo"
+          className={styles.topLogo}
+        />
+
+        <h2>Bem vindo de volta</h2>
+
+        <h3>ENTRAR</h3>
+
+        <form className={styles.form}>
+          <input
+            type="email"
+            placeholder="E-mail"
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+          />
+
+          <div className={styles.checkboxArea}>
+            <input type="checkbox" />
+            <span>Manter Conectado</span>
+          </div>
+
+          <button type="submit">
+            Entrar
+          </button>
+
+          <a href="#">Esqueci a senha</a>
+        </form>
+
+        <footer>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            © 2026 UP SKILLS • Todos os direitos reservados
           </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+
+          <div className={styles.footerLinks}>
+            <a href="#">Termos de Uso</a>
+            <a href="#">Privacidade</a>
+          </div>
+        </footer>
+      </section>
+    </main>
+  )
 }
