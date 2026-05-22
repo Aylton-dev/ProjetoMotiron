@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
+import { Supabase } from "@lib/supabase";
 
 export default function Cursos() {
   const categorias = [
