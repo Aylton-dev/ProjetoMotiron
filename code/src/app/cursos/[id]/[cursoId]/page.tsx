@@ -1,4 +1,11 @@
+'use client';
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { supabaseProxy } from "@/lib/proxy";
+import type { Module } from "@/types/module";
+import type { Course } from "@/types/course";
+import { Loader2, ChevronLeft, Play } from "lucide-react";
 
 function criarSlug(texto: string): string {
   return texto
@@ -10,94 +17,58 @@ function criarSlug(texto: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-const cursos = [
-  {
-    categoriaId: 1,
-    slug: "html-css-e-responsividade",
-    nome: "HTML, CSS e Responsividade",
-    modulos: [
-      "Estrutura semântica e acessibilidade (A11y)",
-      "CSS moderno (Flexbox, Grid, variáveis)",
-      "Responsividade e mobile-first",
-      "Performance e otimização de CSS",
-      "Padronização (BEM, organização de estilos)",
-    ],
-  },
-  {
-    categoriaId: 1,
-    slug: "javascript-moderno",
-    nome: "JavaScript moderno",
-    modulos: [
-      "ES6+ na prática (arrow, destructuring, modules)",
-      "Manipulação de DOM e eventos",
-      "Programação assíncrona (Promises, async/await)",
-      "Tratamento de erros",
-      "Boas práticas e clean code em JS",
-    ],
-  },
-  {
-    categoriaId: 1,
-    slug: "react-o-mais-comum",
-    nome: "React",
-    modulos: [
-      "Fundamentos (componentes, JSX)",
-      "Hooks (useState, useEffect, custom hooks)",
-      "Gerenciamento de estado",
-      "Performance (memo, lazy loading)",
-      "Integração com APIs",
-      "Organização de projetos (arquitetura frontend)",
-    ],
-  },
-  {
-    categoriaId: 1,
-    slug: "typescript",
-    nome: "TypeScript",
-    modulos: [
-      "Tipagem básica e avançada",
-      "Interfaces e tipos customizados",
-      "Tipagem em funções e objetos",
-      "Integração com React",
-      "Boas práticas e escalabilidade",
-    ],
-  },
-  {
-    categoriaId: 1,
-    slug: "consumo-de-apis",
-    nome: "Consumo de APIs",
-    modulos: [
-      "Conceitos de API e HTTP",
-      "Fetch / Axios",
-      "Tratamento de erros e loading",
-      "Integração com frontend",
-      "Cache e otimização de requisições",
-    ],
-  },
-  {
-    categoriaId: 2,
-    slug: "apis-rest",
-    nome: "APIs REST",
-    modulos: [
-      "Conceitos REST (GET, POST, PUT, DELETE)",
-      "Estrutura de endpoints",
-      "Status HTTP",
-      "Boas práticas de API",
-      "Documentação (Swagger)",
-    ],
-  },
-  {
-    categoriaId: 2,
-    slug: "nodejs",
-    nome: "Node.js",
-    modulos: [
-      "Fundamentos do Node",
-      "Criação de servidor",
-      "Middleware",
-      "Integração com banco",
-      "Estrutura de projeto",
-    ],
-  },
-  {
-    categoriaId: 2,
+export default function CursoDetalhes({ 
+  params 
+}: { 
+  params: Promise<{ id: string; cursoId: string }> 
+}) {
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [course, setCourse] = useState<Course | null>(null);
+  const [modules, setModules] = useState<Module[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { id, cursoId } = await params;
+        const parsedCategoryId = Number(id);
+        setCategoryId(parsedCategoryId);
+
+        // Buscar todos os cursos para encontrar pelo slug
+        const coursesResult = await supabaseProxy.courses.getAll();
+        if (coursesResult.success && coursesResult.data) {
+          const foundCourse = coursesResult.data.find(
+            (c) => criarSlug(c.title) === cursoId && c.category_id === parsedCategoryId
+          );
+          
+          if (foundCourse) {
+            setCourse(foundCourse);
+
+            // Buscar módulos do curso
+            const modulesResult = await supabaseProxy.modules.getAll();
+            if (modulesResult.success && modulesResult.data) {
+              const courseMod = modulesResult.data
+                .filter((m) => m.course_id === foundCourse.course_id)
+                .sort((a, b) => a.order_index - b.order_index);
+              setModules(courseMod);
+            }
+          } else {
+            setError('Curso não encontrado');
+          }
+        } else {
+          setError(coursesResult.error?.message || 'Erro ao carregar dados');
+        }
+      } catch (err) {
+        setError('Erro ao conectar com o servidor');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [params]);
     slug: "autenticacao-login-jwt",
     nome: "Autenticação (login, JWT)",
     modulos: [
@@ -342,44 +313,68 @@ export default async function CursoDetalhes({
   const { id, cursoId } = await params;
   const curso = cursos.find((item) => item.slug === cursoId);
 
-  if (!curso) {
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="animate-spin text-[#046279]" size={32} />
+      </div>
+    );
+  }
+
+  if (error || !course) {
     return (
       <div className="p-6">
-        <h1 className="text-xl font-bold text-red-500">Curso não encontrado</h1>
+        <div className="flex items-center gap-2 mb-4">
+          <ChevronLeft className="text-[#046279]" />
+          <Link href={`/cursos/${categoryId}`} className="text-[#046279] font-semibold hover:underline">
+            Voltar para a categoria
+          </Link>
+        </div>
+        <h1 className="text-xl font-bold text-red-500 mt-4">Curso não encontrado</h1>
         <p className="mt-2 text-gray-600">Verifique se o link está correto ou escolha outro curso.</p>
-        <Link href={`/cursos/${id}`} className="mt-4 inline-block text-[#046279] font-semibold hover:underline">
-          Voltar para a categoria
-        </Link>
       </div>
     );
   }
 
   return (
     <div className="p-6">
-      <Link href={`/cursos/${id}`} className="text-sm text-[#046279] hover:underline">
-        ← Voltar para a categoria
-      </Link>
+      <div className="flex items-center gap-2 mb-4">
+        <ChevronLeft className="text-[#046279]" />
+        <Link href={`/cursos/${categoryId}`} className="text-[#046279] font-semibold hover:underline">
+          Voltar para a categoria
+        </Link>
+      </div>
 
-      <h1 className="text-3xl font-bold text-[#046279] mt-4">{curso.nome}</h1>
+      <h1 className="text-3xl font-bold text-[#046279] mt-4">{course.title}</h1>
       <p className="text-gray-600 mt-2">Módulos disponíveis para este curso</p>
 
-      <div className="mt-8 space-y-4">
-        {curso.modulos.map((modulo) => {
-          const moduloSlug = criarSlug(modulo);
-          return (
-            <Link
-              key={modulo}
-              href={`/cursos/${id}/${cursoId}/${moduloSlug}`}
+      {modules.length === 0 ? (
+        <p className="text-gray-500 py-8">Nenhum módulo disponível para este curso.</p>
+      ) : (
+        <div className="mt-8 space-y-4">
+          {modules.map((modulo) => (
+            <a
+              key={modulo.module_id}
+              href={modulo.video_url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="block"
             >
               <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg hover:border-[#046279] transition cursor-pointer">
-                <p className="text-lg font-medium text-gray-800">{modulo}</p>
-                <p className="text-sm text-gray-500 mt-2">Acessar módulo →</p>
+                <div className="flex items-center gap-3">
+                  <Play className="text-[#046279] flex-shrink-0" size={20} />
+                  <div className="flex-1">
+                    <p className="text-lg font-medium text-gray-800">
+                      {modulo.order_index}. {modulo.title}
+                    </p>
+                    <p className="text-sm text-gray-500 mt-1">{modulo.description}</p>
+                  </div>
+                </div>
               </div>
-            </Link>
-          );
-        })}
-      </div>
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,46 +1,52 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
-import { Supabase } from "@lib/supabase";
+import { BookOpen, Loader2 } from "lucide-react";
+import { supabaseProxy } from "@/lib/proxy";
+import type { Category } from "@/types/category";
 
 export default function Cursos() {
-  const categorias = [
-    {
-      id: 1,
-      nome: "Cursos de Frontend",
-      descricao: "HTML, CSS e responsividade, JavaScript moderno, React, TypeScript e consumo de APIs.",
-      imagem: "/imgs/frontend.jpg",
-    },
-    {
-      id: 2,
-      nome: "Cursos de Backend",
-      descricao: "APIs REST, Node.js, autenticação, banco de dados e arquitetura.",
-      imagem: "/imgs/backend.jpg",
-    },
-    {
-      id: 3,
-      nome: "Cursos de Dados",
-      descricao: "SQL, modelagem, ETL, Python para dados e dashboards.",
-      imagem: "/imgs/banco-de-dados.jpg",
-    },
-    {
-      id: 4,
-      nome: "Ferramentas do dia a dia",
-      descricao: "Git, GitHub, metodologias ágeis e versionamento.",
-      imagem: "/imgs/ferramentas-do-dia-a-dia.jpg",
-    },
-    {
-      id: 5,
-      nome: "UI/UX",
-      descricao: "Design system, prototipação, usabilidade e Figma.",
-      imagem: "/imgs/UI-UX.jpg",
-    },
-    {
-      id: 6,
-      nome: "Soft skills",
-      descricao: "Comunicação, trabalho em equipe, gestão de tempo e feedback.",
-      imagem: "/imgs/Soft skills.jpg",
-    },
-  ];
+  const [categorias, setCategorias] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const result = await supabaseProxy.categories.getAll();
+        
+        if (result.success && result.data) {
+          setCategorias(result.data);
+        } else {
+          setError(result.error?.message || 'Erro ao carregar categorias');
+        }
+      } catch (err) {
+        setError('Erro ao conectar com o servidor');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategorias();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="animate-spin text-[#046279]" size={32} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
+        <p className="text-red-700 font-semibold">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -49,39 +55,43 @@ export default function Cursos() {
         <h1 className="text-2xl font-bold">Categorias de cursos</h1>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {categorias.length === 0 ? (
+        <p className="text-gray-500 py-8">Nenhuma categoria disponível no momento.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {categorias.map((categoria) => (
+            <Link
+              key={categoria.category_id}
+              href={`/cursos/${categoria.category_id}`}
+              className="block"
+            >
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-300 cursor-pointer">
 
-        {categorias.map((categoria) => (
-          <Link
-            key={categoria.id}
-            href={`/cursos/${categoria.id}`}
-            className="block"
-          >
-            <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-300 cursor-pointer">
+                <div className="h-40 w-full overflow-hidden bg-gray-200">
+                  {categoria.image_url && (
+                    <img
+                      src={categoria.image_url}
+                      alt={categoria.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                    />
+                  )}
+                </div>
 
-              <div className="h-40 w-full overflow-hidden">
-                <img
-                  src={categoria.imagem}
-                  alt={categoria.nome}
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                />
+                <div className="p-5">
+                  <h2 className="text-lg font-semibold group-hover:text-[#046279] transition">
+                    {categoria.name}
+                  </h2>
+
+                  <p className="text-sm text-gray-500 mt-2">
+                    {categoria.description}
+                  </p>
+                </div>
+
               </div>
-
-              <div className="p-5">
-                <h2 className="text-lg font-semibold group-hover:text-[#046279] transition">
-                  {categoria.nome}
-                </h2>
-
-                <p className="text-sm text-gray-500 mt-2">
-                  {categoria.descricao}
-                </p>
-              </div>
-
-            </div>
-          </Link>
-        ))}
-
-      </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
