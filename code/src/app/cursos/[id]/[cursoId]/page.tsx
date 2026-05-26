@@ -340,7 +340,7 @@ export default async function CursoDetalhes({
     <div className="p-6">
       <div className="flex items-center gap-2 mb-4">
         <ChevronLeft className="text-[#046279]" />
-        <Link href={`/cursos/${categoryId}`} className="text-[#046279] font-semibold hover:underline">
+        <Link href={`/cursos/${categoriesId}`} className="text-[#046279] font-semibold hover:underline">
           Voltar para a categoria
         </Link>
       </div>

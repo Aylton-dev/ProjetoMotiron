@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabaseProxy } from '@/lib/proxy';
 import type { Courses } from '@/types/courses';
-import type { Categorys } from '@/types/categories';
+import type { Categories } from '@/types/categories';
 import { Loader2, Plus, Trash2, Edit2, ArrowLeft } from 'lucide-react';
 
 export default function CursosPage() {
   const [courses, setCourses] = useState<Courses[]>([]);
-  const [categories, setCategories] = useState<Categorys[]>([]);
+  const [categories, setCategories] = useState<Categories[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

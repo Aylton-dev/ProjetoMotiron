@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import type { Categorys } from '../types/categorys';
+import type { Categories } from '../types/categories';
 import type { Courses } from '../types/courses';
 import type { Employees } from '../types/employees';
 import type { Enrollments } from '../types/enrollments';
@@ -293,10 +293,10 @@ export const supabaseProxy = {
 
   
   categories: {
-    getAll: () => supabaseProxy.getData<Categorys>('categories'),
-    getById: (id: number) => supabaseProxy.getDataById<Categorys>('categories', 'category_id', id),
-    create: (data: Partial<Categorys>) => supabaseProxy.insertData<Categorys>('categories', data),
-    update: (id: number, data: Partial<Categorys>) => supabaseProxy.updateData<Categorys>('categories', 'category_id', id, data),
+    getAll: () => supabaseProxy.getData<Categories>('categories'),
+    getById: (id: number) => supabaseProxy.getDataById<Categories>('categories', 'category_id', id),
+    create: (data: Partial<Categories>) => supabaseProxy.insertData<Categories>('categories', data),
+    update: (id: number, data: Partial<Categories>) => supabaseProxy.updateData<Categories>('categories', 'category_id', id, data),
     delete: (id: number) => supabaseProxy.deleteData('categories', 'category_id', id),
   },
 
