@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GlassCard } from "@/app/components/GlassCard";
 
 // Função para converter nome do curso em slug
 function criarSlug(texto: string): string {
@@ -109,8 +110,16 @@ export default async function Categoria({ params }: { params: Promise<{ id: stri
         ← Voltar para categorias
       </Link>
 
-      <h1 className="text-3xl font-bold text-[#046279] mt-4">{categoria.nome}</h1>
-      <p className="text-gray-600 mt-2">{categoria.descricao}</p>
+      <div className="space-y-2 border-b border-white/10 pb-4 mb-6">
+        
+        <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-blue-200 drop-shadow-sm">
+          {categoria.nome}
+        </h1>
+  
+        <p className="text-sm md:text-base text-white/70 max-w-2xl leading-relaxed">
+          {categoria.descricao}
+        </p>
+      </div>
 
       <div className="mt-8 space-y-4">
         {categoria.cursos.map((curso) => {
@@ -121,10 +130,17 @@ export default async function Categoria({ params }: { params: Promise<{ id: stri
               href={`/cursos/${id}/${cursoSlug}`}
               className="block"
             >
-              <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg hover:border-[#046279] transition cursor-pointer">
-                <p className="text-lg font-medium text-gray-800 group-hover:text-[#046279]">{curso}</p>
-                <p className="text-sm text-gray-500 mt-2">Clique para acessar →</p>
-              </div>
+              <GlassCard className="h-full flex flex-col bg-slate-900/40 border border-white/10 rounded-2xl p-5 overflow-hidden shadow-lg hover:border-white/20 hover:bg-slate-900/60 transition-all duration-300 hover:-translate-y-1 group">
+  
+                <p className="text-lg font-bold text-white tracking-tight group-hover:text-blue-200 transition duration-300">
+                  {curso}
+                </p>
+  
+                <p className="text-xs font-semibold text-blue-300 mt-4 flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-300">
+                  Clique para acessar →
+                </p>
+
+              </GlassCard>
             </Link>
           );
         })}

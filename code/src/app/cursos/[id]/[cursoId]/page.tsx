@@ -360,9 +360,16 @@ export default async function CursoDetalhes({
         ← Voltar para a categoria
       </Link>
 
-      <h1 className="text-3xl font-bold text-[#046279] mt-4">{curso.nome}</h1>
-      <p className="text-gray-600 mt-2">Módulos disponíveis para este curso</p>
+      <div className="space-y-2 border-b border-white/10 pb-5 mb-6">
+        
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-blue-100 drop-shadow-sm">
+          {curso.nome}
+        </h1>
 
+        <p className="text-sm md:text-base text-white/60 tracking-wide font-medium">
+          Módulos disponíveis para este curso
+        </p>
+      </div>
       <div className="mt-8 space-y-4">
         {curso.modulos.map((modulo) => {
           const moduloSlug = criarSlug(modulo);
@@ -372,9 +379,17 @@ export default async function CursoDetalhes({
               href={`/cursos/${id}/${cursoId}/${moduloSlug}`}
               className="block"
             >
-              <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg hover:border-[#046279] transition cursor-pointer">
-                <p className="text-lg font-medium text-gray-800">{modulo}</p>
-                <p className="text-sm text-gray-500 mt-2">Acessar módulo →</p>
+              
+              <div className="group bg-white/[0.03] backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-md hover:bg-white/[0.08] hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
+  
+                <p className="text-lg font-bold text-white tracking-tight group-hover:text-blue-200 transition duration-300">
+                  {modulo}
+                </p>
+
+                <p className="text-xs font-semibold text-blue-300/80 mt-4 flex items-center gap-1 group-hover:text-blue-300 transition duration-300">
+                  Acessar módulo →
+                </p>
+
               </div>
             </Link>
           );
