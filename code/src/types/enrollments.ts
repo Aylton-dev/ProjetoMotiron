@@ -1,4 +1,4 @@
-export interface Enrollment {
+export interface Enrollments {
   enrollment_id: number;
 
   employee_id: number;

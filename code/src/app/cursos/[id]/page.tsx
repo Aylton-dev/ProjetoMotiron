@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { supabaseProxy } from "@/lib/proxy";
-import type { Course } from "@/types/course";
+import type { Courses } from "@/types/courses";
 import { Loader2, ChevronLeft } from "lucide-react";
 
 function criarSlug(texto: string): string {
@@ -18,7 +18,7 @@ function criarSlug(texto: string): string {
 
 export default function Categoria({ params }: { params: Promise<{ id: string }> }) {
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [categoryName, setCategoryName] = useState<string>("");
@@ -56,10 +56,7 @@ export default function Categoria({ params }: { params: Promise<{ id: string }> 
 
     fetchData();
   }, [params]);
-      </div>
-    );
-  }
-
+ 
   return (
     <div className="p-6">
       <div className="flex items-center gap-2 mb-4">

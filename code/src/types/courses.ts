@@ -1,4 +1,4 @@
-export interface Course {
+export interface Courses {
   course_id: number;
   category_id: number;
 

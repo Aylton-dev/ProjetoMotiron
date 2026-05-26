@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabaseProxy } from '@/lib/proxy';
-import type { Category } from '@/types/category';
+import type { Categorys } from '@/types/categories';
 import { Loader2, Plus, Trash2, Edit2, ArrowLeft } from 'lucide-react';
 
 export default function CategoriasPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Categorys[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

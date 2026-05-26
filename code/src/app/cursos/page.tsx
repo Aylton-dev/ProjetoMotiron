@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BookOpen, Loader2 } from "lucide-react";
 import { supabaseProxy } from "@/lib/proxy";
-import type { Category } from "@/types/category";
+import type { Category } from "@/types/categories";
 
 export default function Cursos() {
   const [categorias, setCategorias] = useState<Category[]>([]);

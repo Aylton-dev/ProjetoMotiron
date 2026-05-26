@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { supabaseProxy } from "@/lib/proxy";
-import type { Module } from "@/types/module";
-import type { Course } from "@/types/course";
+import type { Module } from "@/types/modules";
+import type { Course } from "@/types/courses";
 import { Loader2, ChevronLeft, Play } from "lucide-react";
 
 function criarSlug(texto: string): string {

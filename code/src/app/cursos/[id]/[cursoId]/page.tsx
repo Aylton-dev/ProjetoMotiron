@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { supabaseProxy } from "@/lib/proxy";
-import type { Module } from "@/types/module";
-import type { Course } from "@/types/course";
+import type { Modules } from "@/types/modules";
+import type { Courses } from "@/types/courses";
 import { Loader2, ChevronLeft, Play } from "lucide-react";
 
 function criarSlug(texto: string): string {
@@ -23,8 +23,8 @@ export default function CursoDetalhes({
   params: Promise<{ id: string; cursoId: string }> 
 }) {
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [course, setCourse] = useState<Course | null>(null);
-  const [modules, setModules] = useState<Module[]>([]);
+  const [course, setCourse] = useState<Courses | null>(null);
+  const [modules, setModules] = useState<Modules[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

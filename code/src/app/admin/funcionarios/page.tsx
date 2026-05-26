@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabaseProxy } from '@/lib/proxy';
-import type { Employee } from '@/types/employee';
+import type { Employees } from '@/types/employees';
 import { Loader2, Plus, Trash2, Edit2, ArrowLeft } from 'lucide-react';
 
 export default function FuncionariosPage() {
-  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employees, setEmployees] = useState<Employees[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

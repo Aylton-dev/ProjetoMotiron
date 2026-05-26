@@ -1,4 +1,4 @@
-export interface Module {
+export interface Modules {
   module_id: number;
 
   course_id: number;

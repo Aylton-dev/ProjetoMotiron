@@ -1,9 +1,9 @@
 import { supabase } from './supabase';
-import type { Category } from '../types/category';
-import type { Course } from '../types/course';
-import type { Employee } from '../types/employee';
-import type { Enrollment } from '../types/enrollment';
-import type { Module } from '../types/module';
+import type { Categorys } from '../types/categorys';
+import type { Courses } from '../types/courses';
+import type { Employees } from '../types/employees';
+import type { Enrollments } from '../types/enrollments';
+import type { Modules } from '../types/modules';
 
 interface ProxyResponse<T> {
   success: boolean;
@@ -293,46 +293,46 @@ export const supabaseProxy = {
 
   
   categories: {
-    getAll: () => supabaseProxy.getData<Category>('categories'),
-    getById: (id: number) => supabaseProxy.getDataById<Category>('categories', 'category_id', id),
-    create: (data: Partial<Category>) => supabaseProxy.insertData<Category>('categories', data),
-    update: (id: number, data: Partial<Category>) => supabaseProxy.updateData<Category>('categories', 'category_id', id, data),
+    getAll: () => supabaseProxy.getData<Categorys>('categories'),
+    getById: (id: number) => supabaseProxy.getDataById<Categorys>('categories', 'category_id', id),
+    create: (data: Partial<Categorys>) => supabaseProxy.insertData<Categorys>('categories', data),
+    update: (id: number, data: Partial<Categorys>) => supabaseProxy.updateData<Categorys>('categories', 'category_id', id, data),
     delete: (id: number) => supabaseProxy.deleteData('categories', 'category_id', id),
   },
 
   
   courses: {
-    getAll: () => supabaseProxy.getData<Course>('courses'),
-    getById: (id: number) => supabaseProxy.getDataById<Course>('courses', 'course_id', id),
-    create: (data: Partial<Course>) => supabaseProxy.insertData<Course>('courses', data),
-    update: (id: number, data: Partial<Course>) => supabaseProxy.updateData<Course>('courses', 'course_id', id, data),
+    getAll: () => supabaseProxy.getData<Courses>('courses'),
+    getById: (id: number) => supabaseProxy.getDataById<Courses>('courses', 'course_id', id),
+    create: (data: Partial<Courses>) => supabaseProxy.insertData<Courses>('courses', data),
+    update: (id: number, data: Partial<Courses>) => supabaseProxy.updateData<Courses>('courses', 'course_id', id, data),
     delete: (id: number) => supabaseProxy.deleteData('courses', 'course_id', id),
   },
 
   
   employees: {
-    getAll: () => supabaseProxy.getData<Employee>('employees'),
-    getById: (id: number) => supabaseProxy.getDataById<Employee>('employees', 'employee_id', id),
-    create: (data: Partial<Employee>) => supabaseProxy.insertData<Employee>('employees', data),
-    update: (id: number, data: Partial<Employee>) => supabaseProxy.updateData<Employee>('employees', 'employee_id', id, data),
+    getAll: () => supabaseProxy.getData<Employees>('employees'),
+    getById: (id: number) => supabaseProxy.getDataById<Employees>('employees', 'employee_id', id),
+    create: (data: Partial<Employees>) => supabaseProxy.insertData<Employees>('employees', data),
+    update: (id: number, data: Partial<Employees>) => supabaseProxy.updateData<Employees>('employees', 'employee_id', id, data),
     delete: (id: number) => supabaseProxy.deleteData('employees', 'employee_id', id),
   },
 
  
   enrollments: {
-    getAll: () => supabaseProxy.getData<Enrollment>('enrollments'),
-    getById: (id: number) => supabaseProxy.getDataById<Enrollment>('enrollments', 'enrollment_id', id),
-    create: (data: Partial<Enrollment>) => supabaseProxy.insertData<Enrollment>('enrollments', data),
-    update: (id: number, data: Partial<Enrollment>) => supabaseProxy.updateData<Enrollment>('enrollments', 'enrollment_id', id, data),
+    getAll: () => supabaseProxy.getData<Enrollments>('enrollments'),
+    getById: (id: number) => supabaseProxy.getDataById<Enrollments>('enrollments', 'enrollment_id', id),
+    create: (data: Partial<Enrollments>) => supabaseProxy.insertData<Enrollments>('enrollments', data),
+    update: (id: number, data: Partial<Enrollments>) => supabaseProxy.updateData<Enrollments>('enrollments', 'enrollment_id', id, data),
     delete: (id: number) => supabaseProxy.deleteData('enrollments', 'enrollment_id', id),
   },
 
 
   modules: {
-    getAll: () => supabaseProxy.getData<Module>('modules'),
-    getById: (id: number) => supabaseProxy.getDataById<Module>('modules', 'module_id', id),
-    create: (data: Partial<Module>) => supabaseProxy.insertData<Module>('modules', data),
-    update: (id: number, data: Partial<Module>) => supabaseProxy.updateData<Module>('modules', 'module_id', id, data),
+    getAll: () => supabaseProxy.getData<Modules>('modules'),
+    getById: (id: number) => supabaseProxy.getDataById<Modules>('modules', 'module_id', id),
+    create: (data: Partial<Modules>) => supabaseProxy.insertData<Modules>('modules', data),
+    update: (id: number, data: Partial<Modules>) => supabaseProxy.updateData<Modules>('modules', 'module_id', id, data),
     delete: (id: number) => supabaseProxy.deleteData('modules', 'module_id', id),
   }
 

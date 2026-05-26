@@ -1,4 +1,4 @@
-export interface Employee {
+export interface Employees {
   employee_id: number;
 
   auth_id: string;
