@@ -1,66 +1,18 @@
 import Link from "next/link";
-import { ReactNode } from "react";
-import Saudacao from "./greeting";
 import { 
-  BookOpen, 
-  LayoutDashboard,  
-  User, 
-  HomeIcon, 
+  BookOpen,
   PlayCircle, 
   Clock, 
   ChevronRight 
 } from 'lucide-react';
-interface GlassCardProps {
-  children: ReactNode;
-  className?: string; 
-}
-const GlassCard = ({ children, className = "" }: GlassCardProps) => (
-  <div className={`bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-[2.5rem] ${className}`}>
-    {children}
-  </div>
-);
+import { GlassCard } from "@/app/components/GlassCard";
 
 export default function Dashboard() {
 return(
     
       <div className="min-h-screen w-full bg-[#046279] relative overflow-hidden flex font-sans text-white">
       
-      {/* Esferas Decorativas de Fundo  */}
-      <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-400/30 rounded-full blur-[120px]" />
-      <div className="absolute bottom-[0%] right-[0%] w-[400px] h-[400px] bg-teal-300/20 rounded-full blur-[100px]" />
-
-      {/* 1. SIDEBAR (GLASS) */}
-      <aside className="w-24 lg:w-64 m-6 mr-0 z-10 flex flex-col">
-        <GlassCard className="h-full flex flex-col p-6 items-center lg:items-start">
-          <div className="text-2xl font-bold mb-5 hidden lg:block tracking-tighter">Logo</div>
-          <div className="text-blue-200">
-              <Saudacao />
-          </div>
-          
-          <nav className="flex-1 space-y-4 w-full">
-            <Link href={`/dashboard`}>
-                <span className="flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all">
-                    <HomeIcon />
-                    Home
-                </span>
-            </Link>
-            <Link href={`/dashboard`}>
-                <span className="flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all">
-                    <LayoutDashboard />
-                    Cursos
-                </span>
-            </Link>
-            <Link href={`/dashboard`}>
-                <span className="flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all">
-                    <User />
-                    Perfil
-                </span>
-            </Link>
-          </nav>
-
-        </GlassCard>
-      </aside>
-
+      
       {/* 2. CONTEÚDO PRINCIPAL */}
       <main className="flex-1 p-6 z-10 overflow-y-auto">
 

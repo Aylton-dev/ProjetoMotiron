@@ -78,13 +78,17 @@ export default function Categoria({ params }: { params: Promise<{ id: string }> 
               href={`/cursos/${categoryId}/${criarSlug(course.title)}`}
               className="block"
             >
-              <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg hover:border-[#046279] transition cursor-pointer">
-                <p className="text-lg font-medium text-gray-800 hover:text-[#046279]">
-                  {course.title}
+              <GlassCard className="h-full flex flex-col bg-slate-900/40 border border-white/10 rounded-2xl p-5 overflow-hidden shadow-lg hover:border-white/20 hover:bg-slate-900/60 transition-all duration-300 hover:-translate-y-1 group">
+  
+                <p className="text-lg font-bold text-white tracking-tight group-hover:text-blue-200 transition duration-300">
+                  {curso}
                 </p>
-                <p className="text-sm text-gray-500 mt-2">{course.description}</p>
-                <p className="text-xs text-[#046279] mt-2 font-semibold">Clique para acessar →</p>
-              </div>
+  
+                <p className="text-xs font-semibold text-blue-300 mt-4 flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-300">
+                  Clique para acessar →
+                </p>
+
+              </GlassCard>
             </Link>
           ))}
         </div>

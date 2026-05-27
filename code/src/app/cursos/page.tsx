@@ -1,97 +1,117 @@
-'use client';
-
-import { useEffect, useState } from "react";
+"use client";
+import {useEffect, useState} from 'react';
 import Link from "next/link";
-import { BookOpen, Loader2 } from "lucide-react";
-import { supabaseProxy } from "@/lib/proxy";
-import type { Category } from "@/types/categories";
+import { BookOpen, FolderOpen } from "lucide-react";
+import { GlassCard } from "@/app/components/GlassCard";
+import { supabase } from "@/lib/supabase";
 
-export default function Cursos() {
-  const [categorias, setCategorias] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface Curso {
+  course_id: number;
+  title: string;
+  description: string;
+  thumbnail_url: string;
+}
+
+interface Categoria {
+  category_id: number;
+  name: string;
+  description: string;
+  courses: Curso[];
+}
+
+export default function CursosPage() {
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    const fetchCategorias = async () => {
+    async function buscarDados() {
       try {
-        const result = await supabaseProxy.categories.getAll();
-        
-        if (result.success && result.data) {
-          setCategorias(result.data);
-        } else {
-          setError(result.error?.message || 'Erro ao carregar categorias');
-        }
-      } catch (err) {
-        setError('Erro ao conectar com o servidor');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+        const { data, error } = await supabase
+  .from('categories')
+  .select(`
+    category_id,
+    name,
+    description,
+    courses!courses_category_id_fkey (
+      course_id,
+      title,
+      description,
+      thumbnail_url
+    )
+  `);
 
-    fetchCategorias();
+        if (error) throw error;
+
+        if (data) {
+          setCategorias(data as Categoria[]);
+        }
+      } catch (error) {
+       console.log(error);
+      } finally {
+        setCarregando(false);
+      }
+    }
+
+    buscarDados();
   }, []);
 
-  if (loading) {
+  if (carregando) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="animate-spin text-[#046279]" size={32} />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
-        <p className="text-red-700 font-semibold">{error}</p>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-white/60 animate-pulse font-medium">Carregando trilhas de conhecimento...</p>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="space-y-6">
       <div className="flex items-center gap-3 mb-6">
-        <BookOpen size={28} className="text-[#046279]" />
-        <h1 className="text-2xl font-bold">Categorias de cursos</h1>
+        <BookOpen size={28} className="text-blue-300" />
+        <h1 className="text-2xl font-bold tracking-tight">Categorias de Cursos</h1>
       </div>
 
-      {categorias.length === 0 ? (
-        <p className="text-gray-500 py-8">Nenhuma categoria disponível no momento.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categorias.map((categoria) => (
-            <Link
-              key={categoria.category_id}
-              href={`/cursos/${categoria.category_id}`}
-              className="block"
-            >
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-300 cursor-pointer">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categorias.map((categoria) => (
+          <Link
+            key={categoria.category_id}
+            href={`/cursos/${categoria.category_id}`}
+            className="block group"
+          >
+            <GlassCard className="h-full flex flex-col bg-slate-900/20 border border-white/10 rounded-3xl overflow-hidden shadow-lg hover:border-white/20 hover:bg-slate-900/40 transition-all duration-300 hover:-translate-y-1">
+              
+              {/* Espaço para Imagem (Usando a thumbnail do primeiro curso da categoria se houver, ou um ícone padrão) */}
+              <div className="h-40 w-full overflow-hidden bg-white/5 flex items-center justify-center relative border-b border-white/5">
+                {categoria.courses && categoria.courses.length > 0 ? (
+                  <img
+                    src={categoria.courses[0].thumbnail_url}
+                    alt={categoria.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  />
+                ) : (
+                  <FolderOpen size={48} className="text-white/20" />
+                )}
+              </div>
 
-                <div className="h-40 w-full overflow-hidden bg-gray-200">
-                  {categoria.image_url && (
-                    <img
-                      src={categoria.image_url}
-                      alt={categoria.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                    />
-                  )}
-                </div>
-
-                <div className="p-5">
-                  <h2 className="text-lg font-semibold group-hover:text-[#046279] transition">
+              {/* Textos ajustados para bater com o banco de dados (name e description) */}
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h2 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors tracking-tight">
                     {categoria.name}
                   </h2>
 
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="text-sm text-white/70 mt-2 leading-relaxed line-clamp-3">
                     {categoria.description}
                   </p>
                 </div>
+                
 
               </div>
-            </Link>
-          ))}
-        </div>
-      )}
+
+            </GlassCard>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
+

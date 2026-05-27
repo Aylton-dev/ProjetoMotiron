@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import Saudacao from "./dashboard/greeting";
 
 export default function Home() {
   return (
