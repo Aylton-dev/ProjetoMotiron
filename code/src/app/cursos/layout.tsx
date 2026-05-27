@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, BookOpen, ListTodo, User } from "lucide-react";
+import { Home, BookOpen, ListTodo, User, Search } from "lucide-react";
+import { GlassCard } from "@/app/components/GlassCard";
+import { Sidebar } from "@/app/components/Sidebar";
 
 const categorias = [
   { id: 1, nome: "Cursos de Frontend" },
@@ -25,70 +27,51 @@ export default function CursosLayout({
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#D6DCF0]">
+    // 1. Mudamos o fundo para o tom escuro e adicionamos relative/overflow para as esferas
+    <div className="min-h-screen w-full bg-[#046279] relative overflow-x-hidden flex flex-col font-sans text-white antialiased">
+      
+      {/* Esferas Decorativas de Fundo (Efeito Glass) */}
+      <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-400/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-teal-300/15 rounded-full blur-[100px] pointer-events-none" />
 
-      {/* NAVBAR */}
-      <header className="bg-[#046279] text-white px-6 py-4 flex items-center shadow-md">
-        <div className="font-bold text-xl w-1/4">
-          LOGO
-        </div>
+      <Sidebar />
 
-        <nav className="flex w-2/4 justify-center gap-10">
-          <Link href="/" className="flex items-center gap-2 hover:text-gray-200">
-            <Home size={18} /> Início
-          </Link>
+      {/* 3. CONTEÚDO PRINCIPAL (Dizemos adeus à antiga sidebar cinza lateral!) */}
+      <div className="flex flex-1 flex-col md:flex-row gap-6 p-6 h-[calc(100vh-110px)] overflow-hidden z-10">
+        
+        {/* Nova Sidebar Compacta Lateral de Filtro dentro do Grid */}
+        <aside className="w-full md:w-72 shrink-0">
+          <GlassCard className="h-full p-5 flex flex-col rounded-[2rem]">
+            
+            <h2 className="font-semibold text-sm mb-3 flex items-center gap-2 text-white/90">
+              <Search size={16} className="text-blue-300" /> Buscar curso
+            </h2>
 
-          <Link href="/cursos" className="flex items-center gap-2 hover:text-gray-200">
-            <BookOpen size={18} /> Cursos
-          </Link>
+            <input
+              type="text"
+              placeholder="Digite o nome..."
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              className="w-full p-2.5 bg-white/10 border border-white/10 rounded-xl text-white placeholder-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 transition mb-6"
+            />
 
-          <Link href="/atividades" className="flex items-center gap-2 hover:text-gray-200">
-            <ListTodo size={18} /> Atividades
-          </Link>
+            <h2 className="font-semibold text-sm mb-3 text-white/90">
+              ⭐ Mais acessados
+            </h2>
 
-          <Link href="/perfil" className="flex items-center gap-2 hover:text-gray-200">
-            <User size={18} /> Perfil
-          </Link>
-        </nav>
-
-        <div className="w-1/4"></div>
-      </header>
-
-      {/* CONTEÚDO */}
-      <div className="flex flex-1">
-
-        {/* SIDEBAR */}
-        <aside className="w-72 bg-white/70 backdrop-blur p-5 border-r">
-
-          <h2 className="font-semibold mb-3">
-            🔎 Buscar curso
-          </h2>
-
-          <input
-            type="text"
-            placeholder="Digite o nome..."
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            className="w-full p-2 mb-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#046279]"
-          />
-
-          <h2 className="font-semibold mb-3">
-            ⭐ Mais acessados
-          </h2>
-
-          <div className="space-y-3">
-            {categoriasFiltradas.map((categoria) => (
-              <Link
-                key={categoria.id}
-                href={`/cursos/${categoria.id}`}
-                className="block p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition"
-              >
-                <p className="font-medium">{categoria.nome}</p>
-                <p className="text-xs text-gray-500">Acessar →</p>
-              </Link>
-            ))}
-          </div>
-
+            <div className="space-y-2 overflow-y-auto pr-1 flex-1 custom-scrollbar">
+              {categoriasFiltradas.map((categoria) => (
+                <Link
+                  key={categoria.id}
+                  href={`/cursos/${categoria.id}`}
+                  className="block p-3 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 hover:border-white/20 transition group"
+                >
+                  <p className="font-medium text-sm text-white/90 group-hover:text-blue-200 transition">{categoria.nome}</p>
+                  <p className="text-xs text-white/40 group-hover:text-white/60 transition mt-1">Acessar →</p>
+                </Link>
+              ))}
+            </div>
+          </GlassCard>
         </aside>
 
         <main className="flex-1 p-8">{children}</main>
