@@ -1,9 +1,9 @@
-import { supabase } from './supabase';
-import type { Categories } from '../types/categories';
-import type { Courses } from '../types/courses';
-import type { Employees } from '../types/employees';
-import type { Enrollments } from '../types/enrollments';
-import type { Modules } from '../types/modules';
+import { createClient } from '../supabase/client';
+import type { Categories } from '../../types/categories';
+import type { Courses } from '../../types/courses';
+import type { Employees } from '../../types/employees';
+import type { Enrollments } from '../../types/enrollments';
+import type { Modules } from '../../types/modules';
 
 interface ProxyResponse<T> {
   success: boolean;
@@ -26,9 +26,9 @@ export const supabaseProxy = {
 
     try {
 
-      const { data, error } = await supabase
-        .from(table)
-        .insert([dataToInsert])
+      
+      const supabase = createClient();
+      const { data, error } = await supabase.from(table)
         .select();
 
       if (error) {
@@ -79,9 +79,10 @@ export const supabaseProxy = {
 
     try {
 
-      const { data, error } = await supabase
-        .from(table)
-        .select('*');
+      const supabase = createClient();
+        const { data, error } = await supabase
+          .from(table)
+          .select();
 
       if (error) {
 
@@ -133,6 +134,7 @@ export const supabaseProxy = {
 
     try {
 
+      const supabase = createClient();
       const { data, error } = await supabase
         .from(table)
         .select('*')
@@ -190,11 +192,11 @@ export const supabaseProxy = {
 
     try {
 
+      const supabase = createClient();  
       const { data, error } = await supabase
         .from(table)
-        .update(dataToUpdate)
+        .select('*')
         .eq(idColumn, id)
-        .select()
         .single();
 
       if (error) {
@@ -247,6 +249,7 @@ export const supabaseProxy = {
 
     try {
 
+      const supabase = createClient();
       const { error } = await supabase
         .from(table)
         .delete()

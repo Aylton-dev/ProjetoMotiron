@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { supabaseProxy } from '@/lib/proxy';
+import { supabaseProxy } from '@/lib/proxy/supabaseproxy';
 import type { Courses } from '@/types/courses';
 import type { Categories } from '@/types/categories';
 import { Loader2, Plus, Trash2, Edit2, ArrowLeft } from 'lucide-react';

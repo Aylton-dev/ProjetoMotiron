@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { supabaseProxy } from "@/lib/proxy";
+import { supabaseProxy } from "@/lib/proxy/supabaseproxy";
 import type { Modules } from "@/types/modules";
 import type { Courses } from "@/types/courses";
 import { Loader2, ChevronLeft, Play } from "lucide-react";

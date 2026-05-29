@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BookOpen, Loader2 } from "lucide-react";
-import { supabaseProxy } from "@/lib/proxy";
+import { supabaseProxy } from "@/lib/proxy/supabaseproxy";
 import type { Category } from "@/types/categories";
 
 export default function Cursos() {
