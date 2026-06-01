@@ -31,6 +31,28 @@ function quiz(
   ];
 }
 
+function quizTresPerguntas(
+  perguntas: {
+    pergunta: string;
+    correta: string;
+    incorretas: [string, string];
+  }[],
+): PerguntaQuiz[] {
+  return perguntas.map((item, index) => {
+    const numero = index + 1;
+
+    return {
+      id: "q" + numero,
+      pergunta: item.pergunta,
+      opcoes: [
+        { id: "q" + numero + "-a", texto: item.incorretas[0] },
+        { id: "q" + numero + "-b", texto: item.correta },
+        { id: "q" + numero + "-c", texto: item.incorretas[1] },
+      ],
+      respostaCorretaId: "q" + numero + "-b",
+    };
+  });
+}
 type AulaBase = Omit<Aula, "status" | "videoUrl" | "quiz" | "duracao"> & {
   duracao?: string;
   quiz?: PerguntaQuiz[];
@@ -67,71 +89,144 @@ export const categorias: Categoria[] = [
           titulo: "HTML",
           descricao:
             "Estruture páginas com HTML semântico, tags essenciais, formulários e boas práticas de acessibilidade.",
-          quiz: quiz(
-            "HTML é usado principalmente para:",
-            "Estruturar o conteúdo da página",
-            ["Estilizar visualmente", "Executar lógica no servidor"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "HTML é usado principalmente para:",
+              correta: "Estruturar o conteúdo da página",
+              incorretas: ["Estilizar visualmente", "Executar lógica no servidor"],
+            },
+            {
+              pergunta: "Qual tag HTML é usada para criar um parágrafo?",
+              correta: "<p>",
+              incorretas: ["<img>", "<style>"],
+            },
+            {
+              pergunta: "Qual é a função da tag <h1>?",
+              correta: "Criar um título principal na página",
+              incorretas: ["Criar um link", "Adicionar uma imagem"],
+            },
+          ]),
         },
         {
           slug: "css",
           titulo: "CSS",
           descricao:
             "Aprenda seletores, box model, Flexbox, Grid e técnicas de layout responsivo para interfaces modernas.",
-          quiz: quiz(
-            "Flexbox é ideal para:",
-            "Distribuir espaço em um eixo",
-            ["Consultar banco de dados", "Autenticar usuários"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Flexbox é ideal para:",
+              correta: "Distribuir espaço em um eixo",
+              incorretas: ["Consultar banco de dados", "Autenticar usuários"],
+            },
+            {
+              pergunta: "Qual propriedade muda a direção do Flexbox?",
+              correta: "flex-direction",
+              incorretas: ["font-size", "background-color"],
+            },
+            {
+              pergunta: "Qual propriedade centraliza itens no eixo principal?",
+              correta: "justify-content",
+              incorretas: ["position", "z-index"],
+            },
+          ]),
         },
         {
           slug: "javascript",
           titulo: "JavaScript",
           descricao:
             "Domine variáveis, funções, DOM, eventos e ES6+ para criar interatividade no navegador.",
-          quiz: quiz(
-            "JavaScript no navegador manipula principalmente:",
-            "O DOM e eventos da página",
-            ["Apenas estilos CSS", "Somente o banco SQL"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "JavaScript no navegador manipula principalmente:",
+              correta: "O DOM e eventos da página",
+              incorretas: ["Apenas estilos CSS", "Somente o banco SQL"],
+            },
+            {
+              pergunta: "Qual palavra cria uma variável que pode mudar de valor?",
+              correta: "let",
+              incorretas: ["const", "style"],
+            },
+            {
+              pergunta: "Qual evento acontece quando o usuário clica em algo?",
+              correta: "click",
+              incorretas: ["submit", "hover"],
+            },
+          ]),
         },
         {
           slug: "react",
           titulo: "React",
           descricao:
             "Construa interfaces com componentes, props, estado e hooks — a biblioteca mais usada no frontend.",
-          quiz: quiz(
-            "React é classificado como:",
-            "Uma biblioteca para interfaces",
-            ["Um banco de dados", "Uma linguagem compilada"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "React é classificado como:",
+              correta: "Uma biblioteca para interfaces",
+              incorretas: ["Um banco de dados", "Uma linguagem compilada"],
+            },
+            {
+              pergunta: "Em React, componentes servem para:",
+              correta: "Dividir a interface em partes reutilizáveis",
+              incorretas: ["Criar tabelas SQL", "Editar imagens"],
+            },
+            {
+              pergunta: "Qual hook é usado para criar estado?",
+              correta: "useState",
+              incorretas: ["useImage", "useHTML"],
+            },
+          ]),
         },
         {
           slug: "typescript",
           titulo: "TypeScript",
           descricao:
             "Adicione tipagem estática ao JavaScript para código mais seguro e manutenível em projetos grandes.",
-          quiz: quiz(
-            "TypeScript adiciona ao JavaScript:",
-            "Tipagem estática opcional",
-            ["Um novo runtime de servidor", "Substituição total do HTML"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "TypeScript adiciona ao JavaScript:",
+              correta: "Tipagem estática opcional",
+              incorretas: ["Um novo runtime de servidor", "Substituição total do HTML"],
+            },
+            {
+              pergunta: "Qual tipo representa texto em TypeScript?",
+              correta: "string",
+              incorretas: ["boolean", "number"],
+            },
+            {
+              pergunta: "TypeScript ajuda principalmente a:",
+              correta: "Evitar erros com tipos no código",
+              incorretas: ["Criar imagens automaticamente", "Substituir o CSS"],
+            },
+          ]),
         },
         {
           slug: "consumo-de-apis",
           titulo: "Consumo de APIs",
           descricao:
             "Integre frontends com APIs REST usando fetch, tratamento de erros, loading e exibição de dados.",
-          quiz: quiz(
-            "Uma API REST comum usa o protocolo:",
-            "HTTP",
-            ["FTP exclusivo", "SMTP para UI"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Uma API REST comum usa o protocolo:",
+              correta: "HTTP",
+              incorretas: ["FTP exclusivo", "SMTP para UI"],
+            },
+            {
+              pergunta: "Qual função do JavaScript é muito usada para buscar dados de APIs?",
+              correta: "fetch",
+              incorretas: ["alert", "console.log"],
+            },
+            {
+              pergunta: "Quando uma API está carregando, é comum mostrar:",
+              correta: "Um estado de loading",
+              incorretas: ["Uma tela quebrada", "Nada para o usuário"],
+            },
+          ]),
         },
       ],
       0,
     ),
   },
+
   {
     slug: "backend",
     nome: "Cursos de Backend",
@@ -145,55 +240,115 @@ export const categorias: Categoria[] = [
           titulo: "APIs REST",
           descricao:
             "Projete endpoints RESTful, verbos HTTP, status codes e contratos JSON entre cliente e servidor.",
-          quiz: quiz(
-            "Em REST, GET geralmente serve para:",
-            "Ler recursos",
-            ["Apagar todos os dados", "Compilar TypeScript"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Em REST, GET geralmente serve para:",
+              correta: "Ler recursos",
+              incorretas: ["Apagar todos os dados", "Compilar TypeScript"],
+            },
+            {
+              pergunta: "Qual formato é muito usado em respostas de APIs?",
+              correta: "JSON",
+              incorretas: ["MP3", "PNG"],
+            },
+            {
+              pergunta: "O código HTTP 404 indica:",
+              correta: "Recurso não encontrado",
+              incorretas: ["Sucesso total", "Senha criada"],
+            },
+          ]),
         },
         {
           slug: "nodejs",
           titulo: "Node.js",
           descricao:
             "Execute JavaScript no servidor com Node.js, módulos, npm e criação de APIs escaláveis.",
-          quiz: quiz(
-            "Node.js permite executar:",
-            "JavaScript no servidor",
-            ["Apenas CSS", "Somente consultas SQL no browser"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Node.js permite executar:",
+              correta: "JavaScript no servidor",
+              incorretas: ["Apenas CSS", "Somente consultas SQL no browser"],
+            },
+            {
+              pergunta: "npm é usado principalmente para:",
+              correta: "Gerenciar pacotes do projeto",
+              incorretas: ["Desenhar telas", "Criar imagens"],
+            },
+            {
+              pergunta: "Em Node.js, módulos ajudam a:",
+              correta: "Organizar e reutilizar código",
+              incorretas: ["Colorir HTML", "Apagar o navegador"],
+            },
+          ]),
         },
         {
           slug: "autenticacao",
           titulo: "Autenticação (login, JWT)",
           descricao:
             "Implemente login, sessões, tokens JWT e boas práticas de segurança em aplicações web.",
-          quiz: quiz(
-            "JWT é comumente usado para:",
-            "Transmitir claims de forma assinada",
-            ["Substituir HTML", "Renderizar componentes React"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "JWT é comumente usado para:",
+              correta: "Transmitir claims de forma assinada",
+              incorretas: ["Substituir HTML", "Renderizar componentes React"],
+            },
+            {
+              pergunta: "Autenticação serve para:",
+              correta: "Verificar a identidade do usuário",
+              incorretas: ["Trocar a cor da página", "Criar tabelas CSS"],
+            },
+            {
+              pergunta: "Uma boa prática para senhas é:",
+              correta: "Armazenar com hash seguro",
+              incorretas: ["Salvar em texto puro", "Enviar no console"],
+            },
+          ]),
         },
         {
           slug: "banco-de-dados",
           titulo: "Banco de dados",
           descricao:
             "Conecte aplicações a bancos relacionais e NoSQL, queries, migrations e persistência de dados.",
-          quiz: quiz(
-            "Um banco relacional organiza dados em:",
-            "Tabelas com relações",
-            ["Apenas arquivos JSON soltos", "Camadas de CSS"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Um banco relacional organiza dados em:",
+              correta: "Tabelas com relações",
+              incorretas: ["Apenas arquivos JSON soltos", "Camadas de CSS"],
+            },
+            {
+              pergunta: "SQL é usado para:",
+              correta: "Consultar e manipular dados",
+              incorretas: ["Estilizar botões", "Criar vídeos"],
+            },
+            {
+              pergunta: "Persistência de dados significa:",
+              correta: "Manter dados salvos mesmo após fechar o sistema",
+              incorretas: ["Apagar dados automaticamente", "Mudar a fonte da tela"],
+            },
+          ]),
         },
         {
           slug: "arquitetura",
           titulo: "Arquitetura (MVC, Clean Code)",
           descricao:
             "Organize projetos com MVC, separação de camadas, Clean Code e padrões de manutenção.",
-          quiz: quiz(
-            "MVC separa a aplicação em:",
-            "Model, View e Controller",
-            ["HTML, CSS e PNG", "Git, GitHub e Figma"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "MVC separa a aplicação em:",
+              correta: "Model, View e Controller",
+              incorretas: ["HTML, CSS e PNG", "Git, GitHub e Figma"],
+            },
+            {
+              pergunta: "Clean Code busca principalmente:",
+              correta: "Código claro e fácil de manter",
+              incorretas: ["Código confuso", "Mais erros de sintaxe"],
+            },
+            {
+              pergunta: "Separar camadas ajuda a:",
+              correta: "Organizar responsabilidades do sistema",
+              incorretas: ["Misturar todas as funções", "Remover o backend"],
+            },
+          ]),
         },
       ],
       1,
@@ -211,227 +366,436 @@ export const categorias: Categoria[] = [
           titulo: "SQL",
           descricao:
             "Consulte e manipule dados com SELECT, JOINs, agregações e filtros em bancos relacionais.",
-          quiz: quiz(
-            "SQL é usado para:",
-            "Consultar e manipular dados estruturados",
-            ["Criar animações CSS", "Autenticar com JWT"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "SQL é usado para:",
+              correta: "Consultar e manipular dados estruturados",
+              incorretas: ["Criar animações CSS", "Autenticar com JWT"],
+            },
+            {
+              pergunta: "Qual comando é muito usado para consultar dados?",
+              correta: "SELECT",
+              incorretas: ["STYLE", "LOGIN"],
+            },
+            {
+              pergunta: "JOIN é usado para:",
+              correta: "Relacionar dados de tabelas diferentes",
+              incorretas: ["Criar imagens", "Apagar o navegador"],
+            },
+          ]),
         },
         {
           slug: "modelagem",
           titulo: "Modelagem de dados",
           descricao:
             "Modele entidades, relacionamentos, normalização e diagramas para bases consistentes.",
-          quiz: quiz(
-            "Normalização busca principalmente:",
-            "Reduzir redundância",
-            ["Aumentar duplicação", "Eliminar índices"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Normalização busca principalmente:",
+              correta: "Reduzir redundância",
+              incorretas: ["Aumentar duplicação", "Eliminar índices"],
+            },
+            {
+              pergunta: "Na modelagem, entidade representa:",
+              correta: "Um objeto ou conceito do sistema",
+              incorretas: ["Uma cor do site", "Um botão da tela"],
+            },
+            {
+              pergunta: "Relacionamento indica:",
+              correta: "Como as entidades se conectam",
+              incorretas: ["O tamanho da fonte", "A velocidade da internet"],
+            },
+          ]),
         },
         {
           slug: "etl",
           titulo: "ETL (tratamento de dados)",
           descricao:
             "Extraia, transforme e carregue dados entre sistemas com pipelines confiáveis.",
-          quiz: quiz(
-            "ETL significa:",
-            "Extract, Transform, Load",
-            ["Edit, Test, Launch", "Export, Tag, Link"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "ETL significa:",
+              correta: "Extract, Transform, Load",
+              incorretas: ["Edit, Test, Launch", "Export, Tag, Link"],
+            },
+            {
+              pergunta: "A etapa Transform serve para:",
+              correta: "Tratar e organizar os dados",
+              incorretas: ["Criar telas", "Enviar e-mails"],
+            },
+            {
+              pergunta: "ETL é comum em:",
+              correta: "Integração de dados entre sistemas",
+              incorretas: ["Desenho de logotipos", "Animação de botões"],
+            },
+          ]),
         },
         {
           slug: "python-dados",
           titulo: "Python para dados",
           descricao:
             "Use Python com pandas e bibliotecas de análise para explorar e tratar conjuntos de dados.",
-          quiz: quiz(
-            "Pandas é popular para:",
-            "Manipulação de tabelas de dados",
-            ["Estilizar páginas web", "Versionar com Git"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Pandas é popular para:",
+              correta: "Manipulação de tabelas de dados",
+              incorretas: ["Estilizar páginas web", "Versionar com Git"],
+            },
+            {
+              pergunta: "Python pode ser usado em dados para:",
+              correta: "Analisar e tratar informações",
+              incorretas: ["Pintar a tela do computador", "Criar cabos de rede"],
+            },
+            {
+              pergunta: "Um DataFrame representa:",
+              correta: "Uma tabela de dados",
+              incorretas: ["Uma imagem", "Uma senha"],
+            },
+          ]),
         },
         {
           slug: "dashboards",
           titulo: "Dashboards",
           descricao:
             "Crie visualizações e painéis para apoiar decisões com KPIs e gráficos claros.",
-          quiz: quiz(
-            "Um dashboard eficaz prioriza:",
-            "Clareza e métricas relevantes",
-            ["Excesso de cores sem legenda", "Dados sem contexto"],
-          ),
+          quiz: quizTresPerguntas([
+            {
+              pergunta: "Um dashboard eficaz prioriza:",
+              correta: "Clareza e métricas relevantes",
+              incorretas: ["Excesso de cores sem legenda", "Dados sem contexto"],
+            },
+            {
+              pergunta: "KPI significa:",
+              correta: "Indicador-chave de desempenho",
+              incorretas: ["Código de página inicial", "Imagem de perfil"],
+            },
+            {
+              pergunta: "Gráficos em dashboards ajudam a:",
+              correta: "Visualizar informações rapidamente",
+              incorretas: ["Esconder dados importantes", "Excluir relatórios"],
+            },
+          ]),
         },
       ],
       2,
     ),
   },
-  {
-    slug: "ferramentas",
-    nome: "Ferramentas do dia a dia",
-    descricao: "Git, GitHub, metodologias ágeis e versionamento.",
-    imagem: "/imgs/ferramentas-do-dia-a-dia.jpg",
-    aulas: aplicarStatus(
-      [
-        {
-          slug: "git",
-          titulo: "Git",
-          descricao:
-            "Controle versões localmente com commits, branches, merge e histórico de alterações.",
-          quiz: quiz(
-            "Git é uma ferramenta de:",
-            "Controle de versão",
-            ["Design de interfaces", "Consultas SQL"],
-          ),
-        },
-        {
-          slug: "github",
-          titulo: "GitHub",
-          descricao:
-            "Hospede repositórios, pull requests, code review e colaboração em equipe na nuvem.",
-          quiz: quiz(
-            "Pull Request serve para:",
-            "Revisar e integrar mudanças",
-            ["Compilar CSS automaticamente", "Substituir banco de dados"],
-          ),
-        },
-        {
-          slug: "metodologias-ageis",
-          titulo: "Metodologias ágeis (Scrum, Kanban)",
-          descricao:
-            "Organize entregas com sprints, quadros Kanban, cerimônias e feedback contínuo.",
-          quiz: quiz(
-            "Scrum trabalha com ciclos chamados:",
-            "Sprints",
-            ["Commits", "Dashboards SQL"],
-          ),
-        },
-        {
-          slug: "versionamento",
-          titulo: "Versionamento e branches",
-          descricao:
-            "Estratégias de branching (Git Flow, trunk), releases e trabalho paralelo em equipe.",
-          quiz: quiz(
-            "Uma branch permite:",
-            "Desenvolver features em paralelo",
-            ["Eliminar histórico do Git", "Bloquear deploys"],
-          ),
-        },
-      ],
-      3,
-    ),
-  },
-  {
-    slug: "ui-ux",
-    nome: "UI/UX",
-    descricao: "Design system, prototipação, usabilidade e Figma.",
-    imagem: "/imgs/UI-UX.jpg",
-    aulas: aplicarStatus(
-      [
-        {
-          slug: "design-system",
-          titulo: "Design System",
-          descricao:
-            "Crie bibliotecas de componentes, tokens e documentação para consistência visual.",
-          quiz: quiz(
-            "Design System garante:",
-            "Consistência entre produtos",
-            ["Apenas mais cores aleatórias", "Remoção de acessibilidade"],
-          ),
-        },
-        {
-          slug: "prototipacao",
-          titulo: "Prototipação",
-          descricao:
-            "Valide ideias com wireframes e protótipos navegáveis antes do desenvolvimento.",
-          quiz: quiz(
-            "Prototipação ajuda a:",
-            "Testar fluxos cedo",
-            ["Substituir testes de API", "Evitar feedback do usuário"],
-          ),
-        },
-        {
-          slug: "usabilidade",
-          titulo: "Usabilidade",
-          descricao:
-            "Aplique heurísticas, testes com usuários e métricas para interfaces intuitivas.",
-          quiz: quiz(
-            "Usabilidade mede principalmente:",
-            "Facilidade de uso",
-            ["Velocidade do Git", "Tamanho do bundle SQL"],
-          ),
-        },
-        {
-          slug: "figma",
-          titulo: "Figma",
-          descricao:
-            "Produza layouts colaborativos no Figma com componentes, auto layout e handoff.",
-          quiz: quiz(
-            "Figma é usado principalmente para:",
-            "Design de interfaces colaborativo",
-            ["Executar queries SQL", "Hospedar APIs Node"],
-          ),
-        },
-      ],
-      4,
-    ),
-  },
-  {
-    slug: "soft-skills",
-    nome: "Soft skills",
-    descricao:
-      "Comunicação, trabalho em equipe, gestão de tempo e feedback.",
-    imagem: "/imgs/Soft skills.jpg",
-    aulas: aplicarStatus(
-      [
-        {
-          slug: "comunicacao",
-          titulo: "Comunicação",
-          descricao:
-            "Comunique ideias com clareza em reuniões, documentos e apresentações técnicas.",
-          quiz: quiz(
-            "Comunicação assertiva prioriza:",
-            "Clareza e respeito",
-            ["Evitar todo feedback", "Falar apenas por jargões"],
-          ),
-        },
-        {
-          slug: "trabalho-em-equipe",
-          titulo: "Trabalho em equipe",
-          descricao:
-            "Colabore em squads, divida responsabilidades e resolva conflitos construtivamente.",
-          quiz: quiz(
-            "Trabalho em equipe eficaz requer:",
-            "Confiança e alinhamento",
-            ["Competição interna constante", "Silêncio total"],
-          ),
-        },
-        {
-          slug: "gestao-de-tempo",
-          titulo: "Gestão de tempo",
-          descricao:
-            "Priorize tarefas, evite procrastinação e use métodos como Pomodoro e backlog pessoal.",
-          quiz: quiz(
-            "Priorização ajuda a:",
-            "Focar no que gera mais valor",
-            ["Fazer tudo ao mesmo tempo", "Ignorar prazos"],
-          ),
-        },
-        {
-          slug: "feedback",
-          titulo: "Feedback",
-          descricao:
-            "Dê e receba feedback de forma construtiva para evolução contínua.",
-          quiz: quiz(
-            "Feedback construtivo deve ser:",
-            "Específico e orientado a ação",
-            ["Apenas crítico e vago", "Público e humilhante"],
-          ),
-        },
-      ],
-      5,
-    ),
-  },
-];
+
+    {
+      slug: "ferramentas",
+      nome: "Ferramentas do dia a dia",
+      descricao: "Git, GitHub, metodologias ágeis e versionamento.",
+      imagem: "/imgs/ferramentas-do-dia-a-dia.jpg",
+      aulas: aplicarStatus(
+        [
+          {
+            slug: "git",
+            titulo: "Git",
+            descricao:
+              "Controle versões localmente com commits, branches, merge e histórico de alterações.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Git é uma ferramenta de:",
+                correta: "Controle de versão",
+                incorretas: ["Design de interfaces", "Consultas SQL"],
+              },
+              {
+                pergunta: "Um commit serve para:",
+                correta: "Salvar uma alteração no histórico",
+                incorretas: ["Apagar o projeto", "Criar banco de dados"],
+              },
+              {
+                pergunta: "Branch no Git permite:",
+                correta: "Trabalhar em versões separadas do código",
+                incorretas: ["Editar imagens", "Criar senhas automáticas"],
+              },
+            ]),
+          },
+          {
+            slug: "github",
+            titulo: "GitHub",
+            descricao:
+              "Hospede repositórios, pull requests, code review e colaboração em equipe na nuvem.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Pull Request serve para:",
+                correta: "Revisar e integrar mudanças",
+                incorretas: ["Compilar CSS automaticamente", "Substituir banco de dados"],
+              },
+              {
+                pergunta: "GitHub é usado principalmente para:",
+                correta: "Hospedar e colaborar em repositórios",
+                incorretas: ["Editar vídeos", "Criar planilhas offline"],
+              },
+              {
+                pergunta: "Code review significa:",
+                correta: "Revisão de código",
+                incorretas: ["Exclusão de arquivos", "Instalação de programas"],
+              },
+            ]),
+          },
+          {
+            slug: "metodologias-ageis",
+            titulo: "Metodologias ágeis (Scrum, Kanban)",
+            descricao:
+              "Organize entregas com sprints, quadros Kanban, cerimônias e feedback contínuo.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Scrum trabalha com ciclos chamados:",
+                correta: "Sprints",
+                incorretas: ["Commits", "Dashboards SQL"],
+              },
+              {
+                pergunta: "Kanban costuma usar:",
+                correta: "Quadros com etapas das tarefas",
+                incorretas: ["Somente banco de dados", "Apenas comandos Git"],
+              },
+              {
+                pergunta: "Metodologias ágeis valorizam:",
+                correta: "Entregas frequentes e feedback contínuo",
+                incorretas: ["Trabalho sem organização", "Ausência de comunicação"],
+              },
+            ]),
+          },
+          {
+            slug: "versionamento",
+            titulo: "Versionamento e branches",
+            descricao:
+              "Estratégias de branching (Git Flow, trunk), releases e trabalho paralelo em equipe.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Uma branch permite:",
+                correta: "Desenvolver features em paralelo",
+                incorretas: ["Eliminar histórico do Git", "Bloquear deploys"],
+              },
+              {
+                pergunta: "Versionamento ajuda a:",
+                correta: "Controlar mudanças no código ao longo do tempo",
+                incorretas: ["Remover todos os arquivos", "Substituir o navegador"],
+              },
+              {
+                pergunta: "Git Flow é uma estratégia para:",
+                correta: "Organizar branches e releases",
+                incorretas: ["Criar dashboards", "Estilizar páginas com CSS"],
+              },
+            ]),
+          },
+        ],
+        3,
+      ),
+    },
+  
+    {
+      slug: "ui-ux",
+      nome: "UI/UX",
+      descricao: "Design system, prototipação, usabilidade e Figma.",
+      imagem: "/imgs/UI-UX.jpg",
+      aulas: aplicarStatus(
+        [
+          {
+            slug: "design-system",
+            titulo: "Design System",
+            descricao:
+              "Crie bibliotecas de componentes, tokens e documentação para consistência visual.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Design System garante:",
+                correta: "Consistência entre produtos",
+                incorretas: ["Apenas mais cores aleatórias", "Remoção de acessibilidade"],
+              },
+              {
+                pergunta: "Tokens de design ajudam a:",
+                correta: "Padronizar cores, fontes e espaçamentos",
+                incorretas: ["Apagar componentes", "Criar banco de dados"],
+              },
+              {
+                pergunta: "Componentes reutilizáveis servem para:",
+                correta: "Manter padrão visual e agilizar o design",
+                incorretas: ["Duplicar erros", "Remover documentação"],
+              },
+            ]),
+          },
+          {
+            slug: "prototipacao",
+            titulo: "Prototipação",
+            descricao:
+              "Valide ideias com wireframes e protótipos navegáveis antes do desenvolvimento.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Prototipação ajuda a:",
+                correta: "Testar fluxos cedo",
+                incorretas: ["Substituir testes de API", "Evitar feedback do usuário"],
+              },
+              {
+                pergunta: "Wireframe é usado para:",
+                correta: "Representar a estrutura inicial da interface",
+                incorretas: ["Programar o backend", "Criar banco de dados"],
+              },
+              {
+                pergunta: "Protótipos navegáveis permitem:",
+                correta: "Simular a experiência do usuário",
+                incorretas: ["Excluir telas automaticamente", "Hospedar APIs"],
+              },
+            ]),
+          },
+          {
+            slug: "usabilidade",
+            titulo: "Usabilidade",
+            descricao:
+              "Aplique heurísticas, testes com usuários e métricas para interfaces intuitivas.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Usabilidade mede principalmente:",
+                correta: "Facilidade de uso",
+                incorretas: ["Velocidade do Git", "Tamanho do bundle SQL"],
+              },
+              {
+                pergunta: "Testes com usuários ajudam a:",
+                correta: "Identificar dificuldades reais na interface",
+                incorretas: ["Ignorar problemas", "Apagar o design system"],
+              },
+              {
+                pergunta: "Uma interface intuitiva deve ser:",
+                correta: "Clara e fácil de entender",
+                incorretas: ["Confusa de propósito", "Sem organização visual"],
+              },
+            ]),
+          },
+          {
+            slug: "figma",
+            titulo: "Figma",
+            descricao:
+              "Produza layouts colaborativos no Figma com componentes, auto layout e handoff.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Figma é usado principalmente para:",
+                correta: "Design de interfaces colaborativo",
+                incorretas: ["Executar queries SQL", "Hospedar APIs Node"],
+              },
+              {
+                pergunta: "Auto layout no Figma ajuda a:",
+                correta: "Organizar elementos de forma responsiva",
+                incorretas: ["Criar servidores", "Rodar comandos Git"],
+              },
+              {
+                pergunta: "Handoff no Figma facilita:",
+                correta: "A passagem do design para o desenvolvimento",
+                incorretas: ["Excluir componentes", "Criar senhas automáticas"],
+              },
+            ]),
+          },
+        ],
+        4,
+      ),
+    },
+
+
+
+    {
+      slug: "soft-skills",
+      nome: "Soft skills",
+      descricao:
+        "Comunicação, trabalho em equipe, gestão de tempo e feedback.",
+      imagem: "/imgs/Soft skills.jpg",
+      aulas: aplicarStatus(
+        [
+          {
+            slug: "comunicacao",
+            titulo: "Comunicação",
+            descricao:
+              "Comunique ideias com clareza em reuniões, documentos e apresentações técnicas.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Comunicação assertiva prioriza:",
+                correta: "Clareza e respeito",
+                incorretas: ["Evitar todo feedback", "Falar apenas por jargões"],
+              },
+              {
+                pergunta: "Uma boa comunicação ajuda a:",
+                correta: "Evitar mal-entendidos",
+                incorretas: ["Criar confusão", "Impedir colaboração"],
+              },
+              {
+                pergunta: "Em apresentações técnicas, é importante:",
+                correta: "Explicar ideias com objetividade",
+                incorretas: ["Usar apenas termos difíceis", "Não organizar o conteúdo"],
+              },
+            ]),
+          },
+          {
+            slug: "trabalho-em-equipe",
+            titulo: "Trabalho em equipe",
+            descricao:
+              "Colabore em squads, divida responsabilidades e resolva conflitos construtivamente.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Trabalho em equipe eficaz requer:",
+                correta: "Confiança e alinhamento",
+                incorretas: ["Competição interna constante", "Silêncio total"],
+              },
+              {
+                pergunta: "Dividir responsabilidades ajuda a:",
+                correta: "Organizar melhor as tarefas",
+                incorretas: ["Sobrecarregar uma pessoa", "Eliminar comunicação"],
+              },
+              {
+                pergunta: "Resolver conflitos de forma construtiva significa:",
+                correta: "Buscar diálogo e soluções",
+                incorretas: ["Ignorar o problema", "Culpar alguém publicamente"],
+              },
+            ]),
+          },
+          {
+            slug: "gestao-de-tempo",
+            titulo: "Gestão de tempo",
+            descricao:
+              "Priorize tarefas, evite procrastinação e use métodos como Pomodoro e backlog pessoal.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Priorização ajuda a:",
+                correta: "Focar no que gera mais valor",
+                incorretas: ["Fazer tudo ao mesmo tempo", "Ignorar prazos"],
+              },
+              {
+                pergunta: "O método Pomodoro ajuda em:",
+                correta: "Organizar períodos de foco e pausa",
+                incorretas: ["Apagar tarefas", "Criar conflitos"],
+              },
+              {
+                pergunta: "Um backlog pessoal serve para:",
+                correta: "Organizar tarefas pendentes",
+                incorretas: ["Esquecer prazos", "Evitar planejamento"],
+              },
+            ]),
+          },
+          {
+            slug: "feedback",
+            titulo: "Feedback",
+            descricao:
+              "Dê e receba feedback de forma construtiva para evolução contínua.",
+            quiz: quizTresPerguntas([
+              {
+                pergunta: "Feedback construtivo deve ser:",
+                correta: "Específico e orientado a ação",
+                incorretas: ["Apenas crítico e vago", "Público e humilhante"],
+              },
+              {
+                pergunta: "Receber feedback ajuda a:",
+                correta: "Identificar pontos de melhoria",
+                incorretas: ["Evitar crescimento", "Ignorar aprendizados"],
+              },
+              {
+                pergunta: "Ao dar feedback, é importante:",
+                correta: "Focar em comportamentos e soluções",
+                incorretas: ["Atacar a pessoa", "Ser confuso de propósito"],
+              },
+            ]),
+          },
+        ],
+        5,
+      ),
+    },
+    ];
 
 export function getCategorias(): Categoria[] {
   return categorias;
