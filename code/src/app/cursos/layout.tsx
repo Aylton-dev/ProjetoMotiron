@@ -30,9 +30,9 @@ export default function CursosLayout({
 
       {/* NAVBAR */}
       <header className="bg-[#046279] text-white px-6 py-4 flex items-center shadow-md">
-        <div className="font-bold text-xl w-1/4">
-          LOGO
-        </div>
+      <div className="font-bold text-xl w-1/4">
+  UP SKILLS
+</div>
 
         <nav className="flex w-2/4 justify-center gap-10">
           <Link href="/" className="flex items-center gap-2 hover:text-gray-200">

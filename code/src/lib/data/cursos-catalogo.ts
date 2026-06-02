@@ -57,6 +57,7 @@ type AulaBase = Omit<Aula, "status" | "videoUrl" | "quiz" | "duracao"> & {
   duracao?: string;
   quiz?: PerguntaQuiz[];
   videoIndice?: number;
+  videoUrl?: string;
 };
 
 function aplicarStatus(aulas: AulaBase[], videoOffset = 0): Aula[] {
@@ -65,7 +66,7 @@ function aplicarStatus(aulas: AulaBase[], videoOffset = 0): Aula[] {
     titulo: aula.titulo,
     descricao: aula.descricao,
     duracao: aula.duracao ?? `${12 + (indice % 5) * 3} min`,
-    videoUrl: videoUrl(videoOffset + indice + (aula.videoIndice ?? 0)),
+    videoUrl: aula.videoUrl ?? videoUrl(videoOffset + indice + (aula.videoIndice ?? 0)),
     quiz: aula.quiz ?? [],
     status: (indice === 0
       ? "concluida"
@@ -84,11 +85,15 @@ export const categorias: Categoria[] = [
     imagem: "/imgs/frontend.jpg",
     aulas: aplicarStatus(
       [
+      
         {
-          slug: "html",
-          titulo: "HTML",
-          descricao:
-            "Estruture páginas com HTML semântico, tags essenciais, formulários e boas práticas de acessibilidade.",
+        slug: "html",
+        titulo: "HTML",
+        descricao:
+          "Estruture páginas com HTML semântico, tags essenciais, formulários e boas práticas.",
+      
+          videoUrl: "https://www.youtube.com/watch?v=BjQvU8H_DKY",
+      
           quiz: quizTresPerguntas([
             {
               pergunta: "HTML é usado principalmente para:",
@@ -112,6 +117,7 @@ export const categorias: Categoria[] = [
           titulo: "CSS",
           descricao:
             "Aprenda seletores, box model, Flexbox, Grid e técnicas de layout responsivo para interfaces modernas.",
+            videoUrl: "https://www.youtube.com/watch?v=I-MbP7QddmQ",
           quiz: quizTresPerguntas([
             {
               pergunta: "Flexbox é ideal para:",
@@ -135,6 +141,8 @@ export const categorias: Categoria[] = [
           titulo: "JavaScript",
           descricao:
             "Domine variáveis, funções, DOM, eventos e ES6+ para criar interatividade no navegador.",
+            videoUrl: "http://www.youtube.com/watch?v=_YV7BgVh9Wc",
+
           quiz: quizTresPerguntas([
             {
               pergunta: "JavaScript no navegador manipula principalmente:",
@@ -158,6 +166,8 @@ export const categorias: Categoria[] = [
           titulo: "React",
           descricao:
             "Construa interfaces com componentes, props, estado e hooks — a biblioteca mais usada no frontend.",
+            videoUrl: "https://youtu.be/3rph5q0d90I?si=hVWIZ3e-YIcHKRnP",
+
           quiz: quizTresPerguntas([
             {
               pergunta: "React é classificado como:",
@@ -181,6 +191,8 @@ export const categorias: Categoria[] = [
           titulo: "TypeScript",
           descricao:
             "Adicione tipagem estática ao JavaScript para código mais seguro e manutenível em projetos grandes.",
+            videoUrl: "https://youtu.be/gmupEp468lY?si=R7Vy9Sa8MloPzrkl",
+
           quiz: quizTresPerguntas([
             {
               pergunta: "TypeScript adiciona ao JavaScript:",
@@ -204,6 +216,7 @@ export const categorias: Categoria[] = [
           titulo: "Consumo de APIs",
           descricao:
             "Integre frontends com APIs REST usando fetch, tratamento de erros, loading e exibição de dados.",
+            videoUrl: "https://youtu.be/H-uku8gaWtQ?si=A36jtwq_zr9Gr7m8",
           quiz: quizTresPerguntas([
             {
               pergunta: "Uma API REST comum usa o protocolo:",
@@ -240,6 +253,7 @@ export const categorias: Categoria[] = [
           titulo: "APIs REST",
           descricao:
             "Projete endpoints RESTful, verbos HTTP, status codes e contratos JSON entre cliente e servidor.",
+            videoUrl: "https://youtu.be/S7MduKwvVGk?si=epZCwXf2LQLCU_d4",
           quiz: quizTresPerguntas([
             {
               pergunta: "Em REST, GET geralmente serve para:",
@@ -263,6 +277,7 @@ export const categorias: Categoria[] = [
           titulo: "Node.js",
           descricao:
             "Execute JavaScript no servidor com Node.js, módulos, npm e criação de APIs escaláveis.",
+            videoUrl: "https://youtu.be/vYekSMBCCiM?si=EzjZKTrI8rQNRG3H",
           quiz: quizTresPerguntas([
             {
               pergunta: "Node.js permite executar:",
@@ -286,6 +301,7 @@ export const categorias: Categoria[] = [
           titulo: "Autenticação (login, JWT)",
           descricao:
             "Implemente login, sessões, tokens JWT e boas práticas de segurança em aplicações web.",
+            videoUrl: "https://youtu.be/YcH2kxqK3nc?si=XKYew1MVpFKV5--l",
           quiz: quizTresPerguntas([
             {
               pergunta: "JWT é comumente usado para:",
@@ -309,6 +325,7 @@ export const categorias: Categoria[] = [
           titulo: "Banco de dados",
           descricao:
             "Conecte aplicações a bancos relacionais e NoSQL, queries, migrations e persistência de dados.",
+            videoUrl: "https://youtu.be/N6KsCN8kfOk?si=J041IO5lWIGW9HSM",
           quiz: quizTresPerguntas([
             {
               pergunta: "Um banco relacional organiza dados em:",
@@ -332,6 +349,7 @@ export const categorias: Categoria[] = [
           titulo: "Arquitetura (MVC, Clean Code)",
           descricao:
             "Organize projetos com MVC, separação de camadas, Clean Code e padrões de manutenção.",
+            videoUrl: "https://youtu.be/kYx1QC1XZSo?si=eP94sifx2hFUbOyc",
           quiz: quizTresPerguntas([
             {
               pergunta: "MVC separa a aplicação em:",
@@ -366,6 +384,7 @@ export const categorias: Categoria[] = [
           titulo: "SQL",
           descricao:
             "Consulte e manipule dados com SELECT, JOINs, agregações e filtros em bancos relacionais.",
+            videoUrl: "https://youtu.be/u8n2lN3c9lI?si=CQuBd83R2BrWWXsY",
           quiz: quizTresPerguntas([
             {
               pergunta: "SQL é usado para:",
@@ -389,6 +408,7 @@ export const categorias: Categoria[] = [
           titulo: "Modelagem de dados",
           descricao:
             "Modele entidades, relacionamentos, normalização e diagramas para bases consistentes.",
+            videoUrl: "https://youtu.be/ica1CB_S4jE?si=8G4xq2rPEEyaH3CS",
           quiz: quizTresPerguntas([
             {
               pergunta: "Normalização busca principalmente:",
@@ -412,6 +432,7 @@ export const categorias: Categoria[] = [
           titulo: "ETL (tratamento de dados)",
           descricao:
             "Extraia, transforme e carregue dados entre sistemas com pipelines confiáveis.",
+            videoUrl: "https://youtu.be/U6TeMa9b71U?si=0G_RyqfzW71JJ1jl",
           quiz: quizTresPerguntas([
             {
               pergunta: "ETL significa:",
@@ -435,6 +456,7 @@ export const categorias: Categoria[] = [
           titulo: "Python para dados",
           descricao:
             "Use Python com pandas e bibliotecas de análise para explorar e tratar conjuntos de dados.",
+            videoUrl: "https://youtu.be/sODNyvVW8wY?si=QCkmodjuU1b3ACCO",
           quiz: quizTresPerguntas([
             {
               pergunta: "Pandas é popular para:",
@@ -458,6 +480,7 @@ export const categorias: Categoria[] = [
           titulo: "Dashboards",
           descricao:
             "Crie visualizações e painéis para apoiar decisões com KPIs e gráficos claros.",
+            videoUrl: "https://youtu.be/oJcXE0UAO20?si=Kr6ZNbjmDA6ViPTk",
           quiz: quizTresPerguntas([
             {
               pergunta: "Um dashboard eficaz prioriza:",
@@ -493,6 +516,7 @@ export const categorias: Categoria[] = [
             titulo: "Git",
             descricao:
               "Controle versões localmente com commits, branches, merge e histórico de alterações.",
+              videoUrl: "https://youtu.be/za5KWZ5pRag?si=Ye7zf-XQZQ2t59sb",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Git é uma ferramenta de:",
@@ -516,6 +540,7 @@ export const categorias: Categoria[] = [
             titulo: "GitHub",
             descricao:
               "Hospede repositórios, pull requests, code review e colaboração em equipe na nuvem.",
+              videoUrl: "https://youtu.be/myQuetgSEsY?si=9IbixjwPs9UTCBN_",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Pull Request serve para:",
@@ -539,6 +564,7 @@ export const categorias: Categoria[] = [
             titulo: "Metodologias ágeis (Scrum, Kanban)",
             descricao:
               "Organize entregas com sprints, quadros Kanban, cerimônias e feedback contínuo.",
+              videoUrl: "https://youtu.be/5ByWvpW2zw0?si=_9JD80T_SBcowYJM",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Scrum trabalha com ciclos chamados:",
@@ -562,6 +588,7 @@ export const categorias: Categoria[] = [
             titulo: "Versionamento e branches",
             descricao:
               "Estratégias de branching (Git Flow, trunk), releases e trabalho paralelo em equipe.",
+              videoUrl: "https://youtu.be/q9Db8JgApqg?si=OYbqVy8Fy1entdFd",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Uma branch permite:",
@@ -597,6 +624,7 @@ export const categorias: Categoria[] = [
             titulo: "Design System",
             descricao:
               "Crie bibliotecas de componentes, tokens e documentação para consistência visual.",
+              videoUrl: "https://youtu.be/rbEbsF8o1-8?si=2QNAZ2AOMP-FriZK",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Design System garante:",
@@ -620,6 +648,7 @@ export const categorias: Categoria[] = [
             titulo: "Prototipação",
             descricao:
               "Valide ideias com wireframes e protótipos navegáveis antes do desenvolvimento.",
+              videoUrl: "https://youtu.be/8YbAHNCv9-w?si=8JD_SM8YPARpjtV4",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Prototipação ajuda a:",
@@ -643,6 +672,7 @@ export const categorias: Categoria[] = [
             titulo: "Usabilidade",
             descricao:
               "Aplique heurísticas, testes com usuários e métricas para interfaces intuitivas.",
+              videoUrl: "https://youtu.be/R-bzA9oV-4w?si=T56o-TywlBnePd1y",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Usabilidade mede principalmente:",
@@ -666,6 +696,7 @@ export const categorias: Categoria[] = [
             titulo: "Figma",
             descricao:
               "Produza layouts colaborativos no Figma com componentes, auto layout e handoff.",
+              videoUrl: "https://youtu.be/jQ1sfKIl50E?si=6w5sJlq8BEYuuWwe",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Figma é usado principalmente para:",
@@ -699,11 +730,13 @@ export const categorias: Categoria[] = [
       imagem: "/imgs/Soft skills.jpg",
       aulas: aplicarStatus(
         [
+        
           {
             slug: "comunicacao",
             titulo: "Comunicação",
             descricao:
               "Comunique ideias com clareza em reuniões, documentos e apresentações técnicas.",
+              videoUrl: "https://youtu.be/PGtNYd8CURg?si=DA4T3X-KhkbNOmcG",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Comunicação assertiva prioriza:",
@@ -727,6 +760,7 @@ export const categorias: Categoria[] = [
             titulo: "Trabalho em equipe",
             descricao:
               "Colabore em squads, divida responsabilidades e resolva conflitos construtivamente.",
+              videoUrl: "https://youtu.be/BwfR3pbjByY?si=utWR5smWI1dBI-gs",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Trabalho em equipe eficaz requer:",
@@ -750,6 +784,7 @@ export const categorias: Categoria[] = [
             titulo: "Gestão de tempo",
             descricao:
               "Priorize tarefas, evite procrastinação e use métodos como Pomodoro e backlog pessoal.",
+              videoUrl: "https://youtu.be/eDzipPIiWrw?si=kd8FpUk-rEXoLa_-",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Priorização ajuda a:",
@@ -773,6 +808,7 @@ export const categorias: Categoria[] = [
             titulo: "Feedback",
             descricao:
               "Dê e receba feedback de forma construtiva para evolução contínua.",
+              videoUrl: "https://youtu.be/eDzipPIiWrw?si=kd8FpUk-rEXoLa_-",
             quiz: quizTresPerguntas([
               {
                 pergunta: "Feedback construtivo deve ser:",
