@@ -2,17 +2,18 @@ import Link from 'next/link';
 import { HomeIcon, LayoutDashboard, User } from 'lucide-react'; 
 import { GlassCard } from './GlassCard';
 import Saudacao from './Greeting';
+import Logo from '@/../public/imgs/logo.png';
 
 export function Sidebar() {
   return (
     // m-6 cria o espaçamento flutuante nas bordas, w-[calc(105%-3rem)] desconta as margens
     <header className="w-[calc(100%-3rem)] m-6 mb-0 z-50 sticky top-0">
-      {/* Removemos o h-full e usamos flex-row para alinhar tudo horizontalmente */}
+      
       <GlassCard className="flex flex-row items-center justify-between px-8 py-4 w-full">
         
         {/* Lado Esquerdo: Logo */}
         <div className="text-2xl font-bold tracking-tighter text-white min-w-[100px]">
-          Logo
+          <img src={Logo.src} alt="Logo" className="h-20 w-20" />
         </div>
         
         {/* Centro: Menu de Navegação Horizontal */}
