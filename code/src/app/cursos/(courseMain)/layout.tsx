@@ -27,7 +27,7 @@ export default function CursosLayout({
   );
 
   return (
-    // 1. Mudamos o fundo para o tom escuro e adicionamos relative/overflow para as esferas
+    // Mudamos o fundo para o tom escuro e adicionamos relative/overflow para as esferas
     <div className="min-h-screen w-full bg-[#046279] relative overflow-x-hidden flex flex-col font-sans text-white antialiased">
       
       {/* Esferas Decorativas de Fundo (Efeito Glass) */}
@@ -36,7 +36,7 @@ export default function CursosLayout({
 
       <Sidebar />
 
-      {/* 3. CONTEÚDO PRINCIPAL (Dizemos adeus à antiga sidebar cinza lateral!) */}
+      {/*  CONTEÚDO PRINCIPAL (Dizemos adeus à antiga sidebar cinza lateral!) */}
       <div className="flex flex-1 flex-col md:flex-row gap-6 p-6 h-[calc(100vh-110px)] overflow-hidden z-10">
         
         {/* Nova Sidebar Compacta Lateral de Filtro dentro do Grid */}

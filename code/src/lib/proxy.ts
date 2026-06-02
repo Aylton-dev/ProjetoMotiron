@@ -4,6 +4,7 @@ import type { Courses } from '../types/courses';
 import type { Employees } from '../types/employees';
 import type { Enrollments } from '../types/enrollments';
 import type { Modules } from '../types/modules';
+import type { Lessons } from '../types/lessons';
 
 interface ProxyResponse<T> {
   success: boolean;
@@ -20,55 +21,54 @@ export const supabaseProxy = {
    * Inserir dados em uma tabela
    */
   async insertData<T>(
-    table: string,
-    dataToInsert: Partial<T>
-  ): Promise<ProxyResponse<T>> {
+  table: string,
+  dataToInsert: Partial<T> | Partial<T>[]
+): Promise<ProxyResponse<T>> {
 
-    try {
+  try {
+    // Aplicamos o "as any" aqui para satisfazer as restrições complexas do Supabase
+    const { data, error } = await supabase
+      .from(table)
+      .insert(dataToInsert as any)
+      .select()
+      .single();
 
-      const { data, error } = await supabase
-        .from(table)
-        .insert([dataToInsert])
-        .select();
-
-      if (error) {
-
-        console.error(
-          `[Supabase Error] Erro ao inserir na tabela ${table}:`,
-          error
-        );
-
-        return {
-          success: false,
-          data: null,
-          error: {
-            message: traduzirErroSupabase(error.code)
-          }
-        };
-      }
-
-      return {
-        success: true,
-        data: data ? data[0] : null,
-        error: null
-      };
-
-    } catch (catchError: unknown) {
-
+    if (error) {
       console.error(
-        `[Network Error] Falha ao enviar dados para o proxy:`,
-        catchError
+        `[Supabase Error] Erro ao inserir na tabela ${table}:`,
+        error
       );
 
       return {
         success: false,
         data: null,
         error: {
-          message: 'Erro de conexão com o servidor. Tente novamente.'
+          message: traduzirErroSupabase(error.code)
         }
       };
     }
-  },
+
+    return {
+      success: true,
+      data: (data as T) || null,
+      error: null
+    };
+
+  } catch (catchError: unknown) {
+    console.error(
+      `[Network Error] Falha ao inserir dados:`,
+      catchError
+    );
+
+    return {
+      success: false,
+      data: null,
+      error: {
+        message: 'Erro de conexão com o servidor. Tente novamente.'
+      }
+    };
+  }
+},
 
   /**
    * Buscar todos os dados de uma tabela
@@ -182,59 +182,57 @@ export const supabaseProxy = {
    * Atualizar dados em uma tabela
    */
   async updateData<T>(
-    table: string,
-    idColumn: string,
-    id: number | string,
-    dataToUpdate: Partial<T>
-  ): Promise<ProxyResponse<T>> {
+  table: string,
+  idColumn: string,
+  id: number | string,
+  dataToUpdate: Partial<T>
+): Promise<ProxyResponse<T>> {
 
-    try {
+  try {
+    
+    const { data, error } = await supabase
+      .from(table)
+      .update(dataToUpdate as any) 
+      .eq(idColumn, id)
+      .select()
+      .single();
 
-      const { data, error } = await supabase
-        .from(table)
-        .update(dataToUpdate)
-        .eq(idColumn, id)
-        .select()
-        .single();
-
-      if (error) {
-
-        console.error(
-          `[Supabase Error] Erro ao atualizar na tabela ${table}:`,
-          error
-        );
-
-        return {
-          success: false,
-          data: null,
-          error: {
-            message: traduzirErroSupabase(error.code)
-          }
-        };
-      }
-
-      return {
-        success: true,
-        data: data || null,
-        error: null
-      };
-
-    } catch (catchError: unknown) {
-
+    if (error) {
       console.error(
-        `[Network Error] Falha ao atualizar dados:`,
-        catchError
+        `[Supabase Error] Erro ao atualizar na tabela ${table}:`,
+        error
       );
 
       return {
         success: false,
         data: null,
         error: {
-          message: 'Erro de conexão com o servidor. Tente novamente.'
+          message: traduzirErroSupabase(error.code)
         }
       };
     }
-  },
+
+    return {
+      success: true,
+      data: (data as T) || null, // Garante o retorno correto do tipo T
+      error: null
+    };
+
+  } catch (catchError: unknown) {
+    console.error(
+      `[Network Error] Falha ao atualizar dados:`,
+      catchError
+    );
+
+    return {
+      success: false,
+      data: null,
+      error: {
+        message: 'Erro de conexão com o servidor. Tente novamente.'
+      }
+    };
+  }
+},
 
   /**
    * Deletar dados de uma tabela
@@ -334,7 +332,19 @@ export const supabaseProxy = {
     create: (data: Partial<Modules>) => supabaseProxy.insertData<Modules>('modules', data),
     update: (id: number, data: Partial<Modules>) => supabaseProxy.updateData<Modules>('modules', 'module_id', id, data),
     delete: (id: number) => supabaseProxy.deleteData('modules', 'module_id', id),
-  }
+  },
+
+  lessons: {
+    getAll: () => supabaseProxy.getData<Lessons>('lessons'),
+    getById: (id: number) => supabaseProxy.getDataById<Lessons>('lessons', 'lesson_id', id),
+    create: (data: Partial<Lessons>) => supabaseProxy.insertData<Lessons>('lessons', data),
+    update: (id: number, data: Partial<Lessons>) => supabaseProxy.updateData<Lessons>('lessons', 'lesson_id', id, data),
+    delete: (id: number) => supabaseProxy.deleteData('lessons', 'lesson_id', id),
+  },
+
+  from: (table: string) => supabase.from(table),
+
+  auth: supabase.auth,
 
 };
 
@@ -362,3 +372,4 @@ function traduzirErroSupabase(code?: string): string {
       return 'Ocorreu um erro ao acessar o banco de dados.';
   }
 }
+

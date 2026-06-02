@@ -79,7 +79,7 @@ export default function CursosPage() {
           >
             <GlassCard className="h-full flex flex-col bg-slate-900/20 border border-white/10 rounded-3xl overflow-hidden shadow-lg hover:border-white/20 hover:bg-slate-900/40 transition-all duration-300 hover:-translate-y-1">
               
-              {/* Espaço para Imagem (Usando a thumbnail do primeiro curso da categoria se houver, ou um ícone padrão) */}
+              {/* Espaço para Imagem ) */}
               <div className="h-40 w-full overflow-hidden bg-white/5 flex items-center justify-center relative border-b border-white/5">
                 {categoria.courses && categoria.courses.length > 0 ? (
                   <img
